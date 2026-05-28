@@ -1652,3 +1652,103 @@ body.cyber-dark {
   font-weight: 700;
   color: #cbd5e1;
 }
+
+/* 17. MOBILE RESPONSIVE MEDIA QUERIES (スマホ表示最適化) */
+@media (max-width: 768px) {
+  body.cyber-dark {
+    padding: 8px; /* Reduce outer padding */
+  }
+  
+  #app-wrapper {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+  
+  .app-header {
+    padding: 10px 14px !important;
+  }
+  
+  /* Collapses grid into a vertical single column layout */
+  .app-body {
+    grid-template-columns: 1fr !important;
+    padding: 12px !important;
+    gap: 16px !important;
+  }
+  
+  /* Panel tab selector becomes horizontally scrollable if needed */
+  .panel-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    justify-content: flex-start;
+    display: flex;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab-btn {
+    padding: 8px 10px !important;
+    font-size: 0.78rem !important;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+  
+  /* Compact mountain indicator */
+  .mountain-display-container {
+    grid-template-columns: 28px 1fr !important;
+    gap: 8px !important;
+    height: 190px !important;
+  }
+  
+  .mountain-balloon {
+    font-size: 0.7rem !important;
+    padding: 6px 10px !important;
+  }
+  
+  /* Records summary layout grid */
+  .records-summary-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  
+  .summary-card {
+    flex-direction: row !important;
+    justify-content: space-between;
+    padding: 8px 16px !important;
+  }
+  
+  .summary-card .num {
+    font-size: 1.15rem !important;
+  }
+  
+  /* Cert grid becomes vertical stack or compact cards */
+  .certificates-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+  
+  .cert-modal-card {
+    width: 95% !important;
+    padding: 16px !important;
+  }
+  
+  .cert-frame {
+    padding: 16px 10px !important;
+  }
+  
+  .cert-header {
+    font-size: 1.25rem !important;
+  }
+  
+  .cert-medal-seal {
+    font-size: 2.5rem !important;
+    margin-bottom: 6px !important;
+  }
+  
+  .cert-main-text {
+    font-size: 0.72rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  .cert-body-praise {
+    font-size: 0.65rem !important;
+  }
+}
