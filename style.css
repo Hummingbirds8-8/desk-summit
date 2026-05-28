@@ -1752,3 +1752,29 @@ body.cyber-dark {
     font-size: 0.65rem !important;
   }
 }
+
+/* 18. ULTRA-COMPACT SMARTPHONE BADGES FIX (幅480px以下の型崩れ対策) */
+@media (max-width: 480px) {
+  .logo-text, .layout-toggle-btn {
+    display: none !important; /* Hide brand name text and toggle button to free massive space! */
+  }
+  
+  .logo-area {
+    gap: 0px !important;
+  }
+  
+  .header-badges {
+    gap: 5px !important;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+  
+  .stat-badge {
+    padding: 5px 8px !important;
+    font-size: 0.7rem !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+    min-width: unset !important;
+    border-radius: 8px !important;
+  }
+}
