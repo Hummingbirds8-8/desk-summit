@@ -166,6 +166,54 @@ document.addEventListener('DOMContentLoaded', () => {
         { phase: '左肘と右膝を引き寄せ、吐ききる', duration: 8, type: 'exhale' },
         { phase: '限界までひねってキープ！お腹に効かせる！', duration: 12, type: 'hold' }
       ]
+    },
+    abroller: {
+      name: "膝つきアブローラー (Knee Ab Roller)",
+      desc: "【自宅・超高負荷】四つん這いからアブローラーを前方へ転がし、お腹の力で引き戻します！",
+      duration: 45,
+      climb: 600,
+      exp: 35,
+      calories: 25,
+      breathPattern: [
+        { phase: '四つん這いで息を大きく吸う', duration: 5, type: 'inhale' },
+        { phase: '吐きながらゆっくり前方に押し出す', duration: 10, type: 'exhale' },
+        { phase: '限界の地点で一瞬キープ！耐える！', duration: 5, type: 'hold' },
+        { phase: '吸いながらお腹の力で手元に引き戻す', duration: 8, type: 'inhale' },
+        { phase: 'もう一度吐きながら前方に滑り出す！', duration: 10, type: 'exhale' },
+        { phase: '全身を強固に支えてキープ！', duration: 7, type: 'hold' }
+      ]
+    },
+    squat: {
+      name: "スロースクワット (Slow Squats)",
+      desc: "【自宅・立位】足を肩幅に開き、太ももが床と平行になるまでゆっくり腰を落とします。",
+      duration: 40,
+      climb: 300,
+      exp: 18,
+      calories: 20,
+      breathPattern: [
+        { phase: '背筋を伸ばし、深く息を吸う', duration: 5, type: 'inhale' },
+        { phase: 'ゆっくり吐きながら腰を落とす', duration: 8, type: 'exhale' },
+        { phase: 'お尻を引いた最深部でキープ！', duration: 7, type: 'hold' },
+        { phase: '吸いながらゆっくり立ち上がる', duration: 5, type: 'inhale' },
+        { phase: 'もう一度吐きながら深く腰を落とす！', duration: 8, type: 'exhale' },
+        { phase: '体幹と下半身を意識して耐える！', duration: 7, type: 'hold' }
+      ]
+    },
+    standingtwist: {
+      name: "スタンディング・クロスツイスト (Standing Cross Twist)",
+      desc: "【自宅・立位】立った姿勢から、対角のひじとひざを交互に力強く引き寄せてねじります。",
+      duration: 40,
+      climb: 400,
+      exp: 22,
+      calories: 18,
+      breathPattern: [
+        { phase: '頭の後ろで手を組み、息を吸う', duration: 5, type: 'inhale' },
+        { phase: '吐きながら右肘と左膝を力強く引き寄せる', duration: 8, type: 'exhale' },
+        { phase: 'お腹をしっかり捻ってピタッと停止！', duration: 7, type: 'hold' },
+        { phase: '吸いながら元の立ち姿勢に戻す', duration: 5, type: 'inhale' },
+        { phase: '吐きながら左肘と右膝を引き寄せる！', duration: 8, type: 'exhale' },
+        { phase: '脇腹を限界まで絞り込んでキープ！', duration: 7, type: 'hold' }
+      ]
     }
   };
 

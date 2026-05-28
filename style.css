@@ -153,6 +153,15 @@ body.cyber-dark {
   border: 1px solid var(--glass-border);
   font-size: 0.85rem;
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.stat-badge .badge-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 /* Specific Badges styling */
@@ -1764,17 +1773,33 @@ body.cyber-dark {
   }
   
   .header-badges {
-    gap: 5px !important;
+    gap: 4px !important;
     flex-grow: 1;
     justify-content: flex-end;
+    flex-wrap: nowrap !important; /* Prevent badges from wrapping */
   }
   
   .stat-badge {
-    padding: 5px 8px !important;
-    font-size: 0.7rem !important;
-    gap: 4px !important;
+    padding: 4px 6px !important;
+    font-size: 0.68rem !important;
+    gap: 3px !important;
     white-space: nowrap !important;
     min-width: unset !important;
     border-radius: 8px !important;
+    flex-shrink: 0 !important; /* Prevent badge itself from shrinking */
+  }
+  
+  .stat-badge .badge-text {
+    white-space: nowrap !important;
+  }
+
+  .streak-badge svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .coin-symbol {
+    width: 10px !important;
+    height: 10px !important;
   }
 }
