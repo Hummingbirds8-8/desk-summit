@@ -478,12 +478,13 @@ body.cyber-dark {
 /* Summit Flag */
 .summit-flag {
   position: absolute;
-  left: 38%; /* Align with the peak at 38% */
-  bottom: 65px; /* Sits right at peak height */
+  left: var(--summit-x, 38%); /* Dynamic peak alignment */
+  bottom: var(--summit-y, 65px); /* Sits right at peak height */
   font-size: 0.95rem;
   z-index: 5;
   animation: flagWave 2s infinite ease-in-out;
   filter: drop-shadow(0 0 4px #e11d48);
+  transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
 /* Shop item overlay visual items */
@@ -1804,21 +1805,6 @@ body.cyber-dark {
   }
 }
 
-/* ==========================================
-   19. MOUNTAIN UNIQUE SHAPES & SUMMIT FLAG INTERACTION
-   ========================================== */
-
-/* Summit flag dynamic positioning with variables */
-.summit-flag {
-  position: absolute;
-  left: var(--summit-x, 38%);
-  bottom: var(--summit-y, 65px);
-  font-size: 0.95rem;
-  z-index: 5;
-  animation: flagWave 2s infinite ease-in-out;
-  filter: drop-shadow(0 0 4px #e11d48);
-  transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
 
 /* 1) カイラス山 (聖峰ピラミッド型) */
 .mt-kailash {
