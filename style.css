@@ -1803,3 +1803,183 @@ body.cyber-dark {
     height: 10px !important;
   }
 }
+
+/* ==========================================
+   19. MOUNTAIN UNIQUE SHAPES & SUMMIT FLAG INTERACTION
+   ========================================== */
+
+/* Summit flag dynamic positioning with variables */
+.summit-flag {
+  position: absolute;
+  left: var(--summit-x, 38%);
+  bottom: var(--summit-y, 65px);
+  font-size: 0.95rem;
+  z-index: 5;
+  animation: flagWave 2s infinite ease-in-out;
+  filter: drop-shadow(0 0 4px #e11d48);
+  transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* 1) カイラス山 (聖峰ピラミッド型) */
+.mt-kailash {
+  --summit-x: 50%;
+  --summit-y: 85px;
+}
+.mt-kailash .layer-front {
+  clip-path: polygon(0% 90%, 20% 70%, 50% 25%, 80% 70%, 100% 90%, 100% 100%, 0% 100%) !important;
+  height: 90px !important;
+}
+.mt-kailash .layer-mid {
+  clip-path: polygon(0% 80%, 28% 50%, 50% 35%, 72% 50%, 100% 80%, 100% 100%, 0% 100%) !important;
+  height: 110px !important;
+}
+.mt-kailash .layer-back {
+  clip-path: polygon(0% 70%, 15% 55%, 50% 15%, 85% 55%, 100% 70%, 100% 100%, 0% 100%) !important;
+  height: 135px !important;
+}
+
+/* 2) カワカブ/梅里雪山 (神秘的な鋭利連峰) */
+.mt-kawagarbo {
+  --summit-x: 45%;
+  --summit-y: 80px;
+}
+.mt-kawagarbo .layer-front {
+  clip-path: polygon(0% 85%, 15% 60%, 30% 68%, 45% 30%, 65% 55%, 80% 48%, 100% 85%, 100% 100%, 0% 100%) !important;
+  height: 85px !important;
+}
+.mt-kawagarbo .layer-mid {
+  clip-path: polygon(0% 75%, 25% 45%, 52% 35%, 75% 50%, 100% 75%, 100% 100%, 0% 100%) !important;
+  height: 105px !important;
+}
+.mt-kawagarbo .layer-back {
+  clip-path: polygon(0% 65%, 20% 25%, 40% 45%, 60% 20%, 80% 45%, 100% 65%, 100% 100%, 0% 100%) !important;
+  height: 130px !important;
+}
+
+/* 3) マチャプチャレ (シヴァ神の双耳峰・魚の尾) */
+.mt-machapuchare {
+  --summit-x: 58%; /* 右側の高い方のピーク */
+  --summit-y: 80px;
+}
+.mt-machapuchare .layer-front {
+  /* 42% と 58% の位置に美しいダブルピークを描く！ */
+  clip-path: polygon(0% 85%, 20% 65%, 42% 32%, 50% 45%, 58% 30%, 80% 65%, 100% 85%, 100% 100%, 0% 100%) !important;
+  height: 85px !important;
+}
+.mt-machapuchare .layer-mid {
+  clip-path: polygon(0% 75%, 30% 50%, 50% 38%, 70% 50%, 100% 75%, 100% 100%, 0% 100%) !important;
+  height: 105px !important;
+}
+.mt-machapuchare .layer-back {
+  clip-path: polygon(0% 65%, 25% 35%, 45% 25%, 55% 25%, 75% 35%, 100% 65%, 100% 100%, 0% 100%) !important;
+  height: 130px !important;
+}
+
+/* 4) ナンガ・パルバット (荒々しいルパール絶壁) */
+.mt-nangaparbat {
+  --summit-x: 32%; /* 左側の鋭いルパール絶壁のピーク */
+  --summit-y: 88px;
+}
+.mt-nangaparbat .layer-front {
+  clip-path: polygon(0% 90%, 32% 20%, 38% 55%, 55% 45%, 75% 65%, 100% 90%, 100% 100%, 0% 100%) !important;
+  height: 90px !important;
+}
+.mt-nangaparbat .layer-mid {
+  clip-path: polygon(0% 80%, 25% 45%, 48% 35%, 70% 55%, 100% 80%, 100% 100%, 0% 100%) !important;
+  height: 110px !important;
+}
+.mt-nangaparbat .layer-back {
+  clip-path: polygon(0% 70%, 20% 30%, 50% 20%, 80% 50%, 100% 70%, 100% 100%, 0% 100%) !important;
+  height: 135px !important;
+}
+
+/* 5) カンチェンジュンガ (5つの雪の宝庫・波状巨大峰) */
+.mt-kangchenjunga {
+  --summit-x: 50%;
+  --summit-y: 82px;
+}
+.mt-kangchenjunga .layer-front {
+  clip-path: polygon(0% 85%, 15% 55%, 30% 45%, 50% 32%, 70% 42%, 85% 52%, 100% 85%, 100% 100%, 0% 100%) !important;
+  height: 85px !important;
+}
+.mt-kangchenjunga .layer-mid {
+  clip-path: polygon(0% 75%, 20% 48%, 40% 38%, 60% 38%, 80% 48%, 100% 75%, 100% 100%, 0% 100%) !important;
+  height: 105px !important;
+}
+.mt-kangchenjunga .layer-back {
+  clip-path: polygon(0% 65%, 10% 40%, 25% 25%, 45% 28%, 55% 20%, 75% 25%, 90% 40%, 100% 65%, 100% 100%, 0% 100%) !important;
+  height: 130px !important;
+}
+
+/* 6) エベレスト (天を衝くピラミッド・地球最高峰) */
+.mt-everest {
+  --summit-x: 60%;
+  --summit-y: 98px;
+}
+.mt-everest .layer-front {
+  clip-path: polygon(0% 85%, 25% 60%, 60% 15%, 75% 45%, 90% 40%, 100% 85%, 100% 100%, 0% 100%) !important;
+  height: 85px !important;
+}
+.mt-everest .layer-mid {
+  clip-path: polygon(0% 75%, 35% 45%, 55% 25%, 80% 55%, 100% 75%, 100% 100%, 0% 100%) !important;
+  height: 105px !important;
+}
+.mt-everest .layer-back {
+  clip-path: polygon(0% 65%, 20% 35%, 45% 20%, 65% 10%, 85% 40%, 100% 65%, 100% 100%, 0% 100%) !important;
+  height: 130px !important;
+}
+
+/* ==========================================
+   20. STATIC 'DONE' (やった！) BUTTON PREMIUM STYLING
+   ========================================== */
+.ex-actions-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ex-start-btn {
+  flex: 1 !important;
+  margin: 0 !important;
+}
+
+.ex-direct-btn {
+  background: rgba(45, 212, 191, 0.08) !important;
+  border: 1px solid rgba(45, 212, 191, 0.25) !important;
+  color: #2dd4bf !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: var(--transition-smooth) !important;
+  white-space: nowrap !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ex-direct-btn:hover {
+  background: rgba(45, 212, 191, 0.22) !important;
+  border-color: #2dd4bf !important;
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.3) !important;
+  transform: scale(1.02) !important;
+}
+
+.ex-direct-btn:active {
+  transform: scale(0.98) !important;
+}
+
+/* Mobile optimizations for buttons layout */
+@media (max-width: 480px) {
+  .ex-actions-row {
+    flex-direction: row !important; /* Keep horizontal even on tiny screens but with tight gap */
+    gap: 4px !important;
+  }
+  .ex-direct-btn {
+    padding: 6px 8px !important;
+    font-size: 0.68rem !important;
+  }
+}
+

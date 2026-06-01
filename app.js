@@ -356,6 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     runTimerCountdown: document.getElementById('run-timer-countdown'),
     runProgressFill: document.getElementById('run-progress-fill'),
     runCancelBtn: document.getElementById('run-cancel-btn'),
+    runCompleteBtn: document.getElementById('run-complete-btn'),
     
     // Shop Tab
     shopCards: document.querySelectorAll('.shop-card'),
@@ -499,33 +500,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dynamic time gradient and death zone snow check
     updateSkyTimeOfDay();
     checkDeathZone();
+
+    // Dynamic mountain shape class toggling
+    if (els.mountainZone) {
+      els.mountainZone.classList.remove('mt-kailash', 'mt-kawagarbo', 'mt-machapuchare', 'mt-nangaparbat', 'mt-kangchenjunga', 'mt-everest');
+      els.mountainZone.classList.add('mt-' + state.activeMountainId);
+    }
     
     // 1. Header indicators
-    els.streakCount.textContent = state.streak;
-    els.levelVal.textContent = state.level;
-    els.coinsVal.textContent = state.coins;
+    if (els.streakCount) els.streakCount.textContent = state.streak;
+    if (els.levelVal) els.levelVal.textContent = state.level;
+    if (els.coinsVal) els.coinsVal.textContent = state.coins;
     
     // 2. Records indicators
-    els.recordTotalDone.textContent = state.totalExercisesDone;
-    els.recordTotalCoins.textContent = state.totalCoinsEarned;
-    els.recordCalories.textContent = Math.round(state.totalCalories);
+    if (els.recordTotalDone) els.recordTotalDone.textContent = state.totalExercisesDone;
+    if (els.recordTotalCoins) els.recordTotalCoins.textContent = state.totalCoinsEarned;
+    if (els.recordCalories) els.recordCalories.textContent = Math.round(state.totalCalories);
 
     // 3. Mountain selective targets display
-    els.currentElevationVal.textContent = Math.round(currentHeight);
-    els.targetElevationVal.textContent = targetHeight;
+    if (els.currentElevationVal) els.currentElevationVal.textContent = Math.round(currentHeight);
+    if (els.targetElevationVal) els.targetElevationVal.textContent = targetHeight;
 
     const climbPercent = Math.min(100, (currentHeight / targetHeight) * 100);
-    els.climbHeightFill.style.height = climbPercent + "%";
-    els.hikerPin.style.bottom = `calc(${climbPercent}% - 10px)`; // Offset for pin emoji base
-    els.heightHorizontalFill.style.width = climbPercent + "%";
+    if (els.climbHeightFill) els.climbHeightFill.style.height = climbPercent + "%";
+    if (els.hikerPin) els.hikerPin.style.bottom = `calc(${climbPercent}% - 10px)`; // Offset for pin emoji base
+    if (els.heightHorizontalFill) els.heightHorizontalFill.style.width = climbPercent + "%";
 
     // Dynamic glowing flag at summit on complete climb
-    if (climbPercent >= 100) {
-      els.summitFlag.style.display = 'block';
-      els.summitFlag.style.filter = 'drop-shadow(0 0 10px #f59e0b)';
-    } else {
-      els.summitFlag.style.display = 'block';
-      els.summitFlag.style.filter = 'none';
+    if (els.summitFlag) {
+      if (climbPercent >= 100) {
+        els.summitFlag.style.display = 'block';
+        els.summitFlag.style.filter = 'drop-shadow(0 0 10px #f59e0b)';
+      } else {
+        els.summitFlag.style.display = 'block';
+        els.summitFlag.style.filter = 'none';
+      }
     }
 
     // 4. "Ab Definition" (変換した綺麗な表示)
@@ -533,17 +542,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // We map it: 25% fat -> 10% Ab definition, 6% fat -> 100% Ab definition!
     let abDef = Math.max(10, Math.round((25.0 - state.fat) * 4.7 + 10));
     abDef = Math.min(100, abDef);
-    els.fatVal.textContent = abDef + "%";
-    els.fatFill.style.width = abDef + "%";
+    if (els.fatVal) els.fatVal.textContent = abDef + "%";
+    if (els.fatFill) els.fatFill.style.width = abDef + "%";
 
     // 5. Core level
-    els.coreVal.textContent = "Lv " + state.coreLevel;
-    els.coreFill.style.width = Math.min(100, (state.coreLevel / 20) * 100) + "%";
+    if (els.coreVal) els.coreVal.textContent = "Lv " + state.coreLevel;
+    if (els.coreFill) els.coreFill.style.width = Math.min(100, (state.coreLevel / 20) * 100) + "%";
 
     // 6. Mountaineer EXP
     const nextExpGoal = state.level * 100;
-    els.expVal.textContent = `${state.exp} / ${nextExpGoal}`;
-    els.expFill.style.width = Math.min(100, (state.exp / nextExpGoal) * 100) + "%";
+    if (els.expVal) els.expVal.textContent = `${state.exp} / ${nextExpGoal}`;
+    if (els.expFill) els.expFill.style.width = Math.min(100, (state.exp / nextExpGoal) * 100) + "%";
 
     // 7. Evolution Stages in Records
     updateAbdominalEvolutionStage(abDef);
@@ -940,7 +949,10 @@ document.addEventListener('DOMContentLoaded', () => {
     stopTimer();
   }
 
-  els.runCancelBtn.addEventListener('click', cancelActiveExercise);
+  if (els.runCancelBtn) els.runCancelBtn.addEventListener('click', cancelActiveExercise);
+  if (els.runCompleteBtn) {
+    els.runCompleteBtn.addEventListener('click', completeExerciseSession);
+  }
 
   function addEXP(amt) {
     state.exp += amt;
@@ -973,21 +985,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // 7. MOUNTAIN SELECTION DYNAMICS
   // ==========================================
 
-  els.mountainSelect.addEventListener('change', (e) => {
-    state.activeMountainId = e.target.value;
-    
-    // Show supportive welcome message from guide about the selected peak
-    const selectedMt = MOUNTAINS[state.activeMountainId];
-    els.guideBalloon.textContent = `${selectedMt.name}（標高${selectedMt.height}m）への挑戦ですね！${selectedMt.desc} 安全第一で一歩一歩いきましょう。`;
-    els.guideBalloon.classList.add('pop-balloon');
-    
-    setTimeout(() => {
-      els.guideBalloon.classList.remove('pop-balloon');
-    }, 7000);
+  if (els.mountainSelect) {
+    els.mountainSelect.addEventListener('change', (e) => {
+      state.activeMountainId = e.target.value;
+      
+      // Show supportive welcome message from guide about the selected peak
+      const selectedMt = MOUNTAINS[state.activeMountainId];
+      if (els.guideBalloon) {
+        els.guideBalloon.textContent = `${selectedMt.name}（標高${selectedMt.height}m）への挑戦ですね！${selectedMt.desc} 安全第一で一歩一歩いきましょう。`;
+        els.guideBalloon.classList.add('pop-balloon');
+        
+        setTimeout(() => {
+          els.guideBalloon.classList.remove('pop-balloon');
+        }, 7000);
+      }
 
-    saveGameData();
-    updateUI();
-  });
+      saveGameData();
+      updateUI();
+    });
+  }
 
   // ==========================================
   // 8. INTERACTIVE SHOP LOGIC
@@ -1090,8 +1106,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 7000);
   }
 
-  els.pokeBtn.addEventListener('click', pokeGuide);
-  els.mountainZone.addEventListener('click', pokeGuide);
+  if (els.pokeBtn) els.pokeBtn.addEventListener('click', pokeGuide);
+  if (els.mountainZone) els.mountainZone.addEventListener('click', pokeGuide);
 
   // ==========================================
   // 10. SILENT STAR BURST REWARD ENGINE
@@ -1314,169 +1330,195 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isWidgetMode = false;
   
-  els.toggleWidgetBtn.addEventListener('click', () => {
-    isWidgetMode = !isWidgetMode;
-    
-    if (isWidgetMode) {
-      els.appWrapper.classList.remove('dashboard-layout');
-      els.appWrapper.classList.add('widget-layout');
+  if (els.toggleWidgetBtn) {
+    els.toggleWidgetBtn.addEventListener('click', () => {
+      isWidgetMode = !isWidgetMode;
       
-      els.toggleWidgetBtn.querySelector('.icon-widget').style.display = 'none';
-      els.toggleWidgetBtn.querySelector('.icon-dashboard').style.display = 'block';
-      els.toggleWidgetBtn.querySelector('.btn-text').textContent = "通常表示";
-      els.toggleWidgetBtn.setAttribute('title', '通常モードに切替');
-      
-      switchTab('timer-tab');
-    } else {
-      els.appWrapper.classList.remove('widget-layout');
-      els.appWrapper.classList.add('dashboard-layout');
-      
-      els.toggleWidgetBtn.querySelector('.icon-widget').style.display = 'block';
-      els.toggleWidgetBtn.querySelector('.icon-dashboard').style.display = 'none';
-      els.toggleWidgetBtn.querySelector('.btn-text').textContent = "ウィジェット";
-      els.toggleWidgetBtn.setAttribute('title', 'ウィジェットモードに切替');
-    }
-  });
+      if (isWidgetMode) {
+        els.appWrapper.classList.remove('dashboard-layout');
+        els.appWrapper.classList.add('widget-layout');
+        
+        const iconWidget = els.toggleWidgetBtn.querySelector('.icon-widget');
+        const iconDashboard = els.toggleWidgetBtn.querySelector('.icon-dashboard');
+        const btnText = els.toggleWidgetBtn.querySelector('.btn-text');
+        
+        if (iconWidget) iconWidget.style.display = 'none';
+        if (iconDashboard) iconDashboard.style.display = 'block';
+        if (btnText) btnText.textContent = "通常表示";
+        els.toggleWidgetBtn.setAttribute('title', '通常モードに切替');
+        
+        switchTab('timer-tab');
+      } else {
+        els.appWrapper.classList.remove('widget-layout');
+        els.appWrapper.classList.add('dashboard-layout');
+        
+        const iconWidget = els.toggleWidgetBtn.querySelector('.icon-widget');
+        const iconDashboard = els.toggleWidgetBtn.querySelector('.icon-dashboard');
+        const btnText = els.toggleWidgetBtn.querySelector('.btn-text');
+        
+        if (iconWidget) iconWidget.style.display = 'block';
+        if (iconDashboard) iconDashboard.style.display = 'none';
+        if (btnText) btnText.textContent = "ウィジェット";
+        els.toggleWidgetBtn.setAttribute('title', 'ウィジェットモードに切替');
+      }
+    });
+  }
 
   // ==========================================
   // 12. DATA RESET LOGIC
   // ==========================================
 
-  els.resetSaveBtn.addEventListener('click', () => {
-    if (confirm("これまでの偉大な登山記録、レベル、獲得ギアをすべてリセットし、ベースキャンプから再スタートしますか？")) {
-      localStorage.removeItem('DeskSummit_SaveData');
-      
-      state.activeMountainId = 'kailash';
-      state.mountainProgress = {
-        kailash: 0, kawagarbo: 0, machapuchare: 0, nangaparbat: 0, kangchenjunga: 0, everest: 0
-      };
-      state.coins = 0;
-      state.level = 1;
-      state.exp = 0;
-      state.fat = 25.0;
-      state.coreLevel = 1;
-      state.streak = 0;
-      state.lastActiveDate = null;
-      state.purchasedItems = [];
-      state.completedClimbs = [];
-      state.totalExercisesDone = 0;
-      state.totalCoinsEarned = 0;
-      state.totalCalories = 0;
-      state.timerIntervalMinutes = 30;
-      state.timerTimeRemaining = 1800;
-      
-      els.mountainSelect.value = 'kailash';
-      
-      stopTimer();
-      verifyStreak();
-      applyShopItemsToMountain();
-      updateUI();
-      switchTab('timer-tab');
-      
-      els.guideBalloon.textContent = "登山記録のリセットが完了しました。新たな頂を目指し出発しましょう！🏔️✨";
-      els.guideBalloon.classList.add('pop-balloon');
-      setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 4000);
-    }
-  });
+  if (els.resetSaveBtn) {
+    els.resetSaveBtn.addEventListener('click', () => {
+      if (confirm("これまでの偉大な登山記録、レベル、獲得ギアをすべてリセットし、ベースキャンプから再スタートしますか？")) {
+        localStorage.removeItem('DeskSummit_SaveData');
+        
+        state.activeMountainId = 'kailash';
+        state.mountainProgress = {
+          kailash: 0, kawagarbo: 0, machapuchare: 0, nangaparbat: 0, kangchenjunga: 0, everest: 0
+        };
+        state.coins = 0;
+        state.level = 1;
+        state.exp = 0;
+        state.fat = 25.0;
+        state.coreLevel = 1;
+        state.streak = 0;
+        state.lastActiveDate = null;
+        state.purchasedItems = [];
+        state.completedClimbs = [];
+        state.totalExercisesDone = 0;
+        state.totalCoinsEarned = 0;
+        state.totalCalories = 0;
+        state.timerIntervalMinutes = 30;
+        state.timerTimeRemaining = 1800;
+        
+        if (els.mountainSelect) els.mountainSelect.value = 'kailash';
+        
+        stopTimer();
+        verifyStreak();
+        applyShopItemsToMountain();
+        updateUI();
+        switchTab('timer-tab');
+        
+        if (els.guideBalloon) {
+          els.guideBalloon.textContent = "登山記録のリセットが完了しました。新たな頂を目指し出発しましょう！🏔️✨";
+          els.guideBalloon.classList.add('pop-balloon');
+          setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 4000);
+        }
+      }
+    });
+  }
 
   // ==========================================
   // 12.5 SAVE DATA EXPORT & IMPORT (同期機能)
   // ==========================================
 
-  els.exportSaveBtn.addEventListener('click', () => {
-    try {
-      const saveData = {
-        activeMountainId: state.activeMountainId,
-        mountainProgress: state.mountainProgress,
-        coins: state.coins,
-        level: state.level,
-        exp: state.exp,
-        fat: state.fat,
-        coreLevel: state.coreLevel,
-        streak: state.streak,
-        lastActiveDate: state.lastActiveDate,
-        purchasedItems: state.purchasedItems,
-        totalExercisesDone: state.totalExercisesDone,
-        totalCoinsEarned: state.totalCoinsEarned,
-        totalCalories: state.totalCalories,
-        timerIntervalMinutes: state.timerIntervalMinutes,
-        completedClimbs: state.completedClimbs
-      };
+  if (els.exportSaveBtn) {
+    els.exportSaveBtn.addEventListener('click', () => {
+      try {
+        const saveData = {
+          activeMountainId: state.activeMountainId,
+          mountainProgress: state.mountainProgress,
+          coins: state.coins,
+          level: state.level,
+          exp: state.exp,
+          fat: state.fat,
+          coreLevel: state.coreLevel,
+          streak: state.streak,
+          lastActiveDate: state.lastActiveDate,
+          purchasedItems: state.purchasedItems,
+          totalExercisesDone: state.totalExercisesDone,
+          totalCoinsEarned: state.totalCoinsEarned,
+          totalCalories: state.totalCalories,
+          timerIntervalMinutes: state.timerIntervalMinutes,
+          completedClimbs: state.completedClimbs
+        };
 
-      // Base64 encode
-      const jsonStr = JSON.stringify(saveData);
-      const code = btoa(unescape(encodeURIComponent(jsonStr)));
-      
-      els.transferCodeArea.value = code;
-      els.transferCodeArea.select();
-      
-      navigator.clipboard.writeText(code).then(() => {
-        els.guideBalloon.textContent = "引き継ぎコードを書き出し、クリップボードにコピーしました！スマホや別PCに貼り付けてください。🧗📋";
-      }).catch(() => {
-        els.guideBalloon.textContent = "引き継ぎコードを書き出しました！下の枠内の文字をすべてコピーしてご使用ください。📝";
-      });
-      
-      els.guideBalloon.classList.add('pop-balloon');
-      setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 6000);
-      
-    } catch(e) {
-      console.error(e);
-      alert("コードの書き出しに失敗しました。");
-    }
-  });
+        // Base64 encode
+        const jsonStr = JSON.stringify(saveData);
+        const code = btoa(unescape(encodeURIComponent(jsonStr)));
+        
+        if (els.transferCodeArea) {
+          els.transferCodeArea.value = code;
+          els.transferCodeArea.select();
+        }
+        
+        navigator.clipboard.writeText(code).then(() => {
+          if (els.guideBalloon) els.guideBalloon.textContent = "引き継ぎコードを書き出し、クリップボードにコピーしました！スマホや別PCに貼り付けてください。🧗📋";
+        }).catch(() => {
+          if (els.guideBalloon) els.guideBalloon.textContent = "引き継ぎコードを書き出しました！下の枠内の文字をすべてコピーしてご使用ください。📝";
+        });
+        
+        if (els.guideBalloon) {
+          els.guideBalloon.classList.add('pop-balloon');
+          setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 6000);
+        }
+        
+      } catch(e) {
+        console.error(e);
+        alert("コードの書き出しに失敗しました。");
+      }
+    });
+  }
 
-  els.importSaveBtn.addEventListener('click', () => {
-    const code = els.transferCodeArea.value.trim();
-    if (!code) {
-      alert("引き継ぎコードを入力欄に貼り付けてから実行してください。");
-      return;
-    }
-    
-    try {
-      const jsonStr = decodeURIComponent(escape(atob(code)));
-      const parsed = JSON.parse(jsonStr);
-      
-      if (!parsed.mountainProgress || typeof parsed.coins !== 'number' || typeof parsed.level !== 'number') {
-        throw new Error("Invalid save format");
+  if (els.importSaveBtn) {
+    els.importSaveBtn.addEventListener('click', () => {
+      const code = els.transferCodeArea ? els.transferCodeArea.value.trim() : '';
+      if (!code) {
+        alert("引き継ぎコードを入力欄に貼り付けてから実行してください。");
+        return;
       }
       
-      if (confirm("引き継ぎコードを読み込みますか？現在のセーブデータは上書きされます。")) {
-        state.activeMountainId = parsed.activeMountainId || 'kailash';
-        state.mountainProgress = parsed.mountainProgress;
-        state.coins = parsed.coins;
-        state.level = parsed.level;
-        state.exp = parsed.exp || 0;
-        state.fat = typeof parsed.fat === 'number' ? parsed.fat : 25.0;
-        state.coreLevel = parsed.coreLevel || 1;
-        state.streak = parsed.streak || 0;
-        state.lastActiveDate = parsed.lastActiveDate || null;
-        state.purchasedItems = parsed.purchasedItems || [];
-        state.totalExercisesDone = parsed.totalExercisesDone || 0;
-        state.totalCoinsEarned = parsed.totalCoinsEarned || 0;
-        state.totalCalories = parsed.totalCalories || 0;
-        state.timerIntervalMinutes = parsed.timerIntervalMinutes || 30;
-        state.completedClimbs = parsed.completedClimbs || [];
+      try {
+        const jsonStr = decodeURIComponent(escape(atob(code)));
+        const parsed = JSON.parse(jsonStr);
         
-        saveGameData();
-        loadSavedData();
+        if (!parsed.mountainProgress || typeof parsed.coins !== 'number' || typeof parsed.level !== 'number') {
+          throw new Error("Invalid save format");
+        }
         
-        els.mountainSelect.value = state.activeMountainId;
+        if (confirm("引き継ぎコードを読み込みますか？現在のセーブデータは上書きされます。")) {
+          state.activeMountainId = parsed.activeMountainId || 'kailash';
+          state.mountainProgress = parsed.mountainProgress;
+          state.coins = parsed.coins;
+          state.level = parsed.level;
+          state.exp = parsed.exp || 0;
+          state.fat = typeof parsed.fat === 'number' ? parsed.fat : 25.0;
+          state.coreLevel = parsed.coreLevel || 1;
+          state.streak = parsed.streak || 0;
+          state.lastActiveDate = parsed.lastActiveDate || null;
+          state.purchasedItems = parsed.purchasedItems || [];
+          state.totalExercisesDone = parsed.totalExercisesDone || 0;
+          state.totalCoinsEarned = parsed.totalCoinsEarned || 0;
+          state.totalCalories = parsed.totalCalories || 0;
+          state.timerIntervalMinutes = parsed.timerIntervalMinutes || 30;
+          state.completedClimbs = parsed.completedClimbs || [];
+          
+          saveGameData();
+          loadSavedData();
+          
+          if (els.mountainSelect) els.mountainSelect.value = state.activeMountainId;
+          
+          if (els.guideBalloon) {
+            els.guideBalloon.textContent = "引き継ぎコードの読み込みに成功しました！登山の続きを開始しましょう！🎒✨";
+            els.guideBalloon.classList.add('pop-balloon');
+            setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 5000);
+          }
+          
+          if (els.transferCodeArea) els.transferCodeArea.value = '';
+          triggerCanvasConfetti(80);
+        }
         
-        els.guideBalloon.textContent = "引き継ぎコードの読み込みに成功しました！登山の続きを開始しましょう！🎒✨";
-        els.guideBalloon.classList.add('pop-balloon');
-        setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 5000);
-        
-        els.transferCodeArea.value = '';
-        triggerCanvasConfetti(80);
+      } catch(e) {
+        console.error(e);
+        if (els.guideBalloon) {
+          els.guideBalloon.textContent = "無効な引き継ぎコードです。コピーした文字列が正しいか確認してください！⚠️";
+          els.guideBalloon.classList.add('pop-balloon');
+          setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 4500);
+        }
       }
-      
-    } catch(e) {
-      console.error(e);
-      els.guideBalloon.textContent = "無効な引き継ぎコードです。コピーした文字列が正しいか確認してください！⚠️";
-      els.guideBalloon.classList.add('pop-balloon');
-      setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 4500);
-    }
-  });
+    });
+  }
 
   if ("Notification" in window && Notification.permission === "default") {
     Notification.requestPermission();
@@ -1497,8 +1539,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 13. LAUNCH GAME
+  // 13. LAUNCH GAME & CUSTOM ENHANCEMENTS
   // ==========================================
+  
+  // Bind events to exercise card buttons
+  document.querySelectorAll('.exercise-card-item').forEach(card => {
+    const startBtn = card.querySelector('.ex-start-btn');
+    const directBtn = card.querySelector('.ex-direct-btn');
+    const exId = card.getAttribute('data-ex-id');
+    
+    if (startBtn && exId) {
+      startBtn.textContent = startBtn.textContent.replace('スタート', 'タイマー開始');
+      startBtn.addEventListener('click', () => {
+        startExerciseSession(exId);
+      });
+    }
+    
+    if (directBtn && exId) {
+      directBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.activeExerciseId = exId;
+        completeExerciseSession();
+        
+        // Show supportive direct completion message
+        if (els.guideBalloon) {
+          els.guideBalloon.textContent = `「${EXERCISES[exId].name}」を完了として直接記録しました！素晴らしい体幹アプローチです！🧗✨`;
+          els.guideBalloon.classList.add('pop-balloon');
+          setTimeout(() => els.guideBalloon.classList.remove('pop-balloon'), 5500);
+        }
+      });
+    }
+  });
+
   loadSavedData();
   updateTimerCircle();
 
