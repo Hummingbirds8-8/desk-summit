@@ -214,6 +214,53 @@ document.addEventListener('DOMContentLoaded', () => {
         { phase: '吐きながら左肘と右膝を引き寄せる！', duration: 8, type: 'exhale' },
         { phase: '脇腹を限界まで絞り込んでキープ！', duration: 7, type: 'hold' }
       ]
+    },
+    deepsquat: {
+      name: "ディープ・スクワット (Deep Squats)",
+      desc: "【自宅・高負荷】太ももとお尻を床の平行よりさらに深く落とし、下半身全体を強烈に刺激！",
+      duration: 45,
+      climb: 450,
+      exp: 25,
+      calories: 25,
+      breathPattern: [
+        { phase: '息を吸いながらゆっくり深く沈み込む', duration: 6, type: 'inhale' },
+        { phase: 'お尻を極限まで落とした最深部でキープ！', duration: 10, type: 'hold' },
+        { phase: '息を吐きながら力強く地面を押して立ち上がる', duration: 6, type: 'exhale' },
+        { phase: '立ち上がった姿勢で一瞬息を整える', duration: 4, type: 'inhale' },
+        { phase: 'もう一度深く沈み込み、大腿を追い込む！', duration: 12, type: 'hold' },
+        { phase: '吐きながら最後まで立ち上がる！頑張って！', duration: 7, type: 'exhale' }
+      ]
+    },
+    calfraise: {
+      name: "カーフレイズ (Calf Raises)",
+      desc: "【自宅・立位】かかとを限界まで高く引き上げてつま先立ちになり、第二の心臓「ふくらはぎ」を鍛えます。",
+      duration: 35,
+      climb: 250,
+      exp: 15,
+      calories: 12,
+      breathPattern: [
+        { phase: '両足を揃え、背筋を伸ばして吸う', duration: 4, type: 'inhale' },
+        { phase: 'ゆっくり吐きながらかかとを限界まで上げる', duration: 6, type: 'exhale' },
+        { phase: 'つま先立ちの最高到達点でキープ！', duration: 8, type: 'hold' },
+        { phase: '吸いながら床ギリギリまでかかとを下ろす', duration: 4, type: 'inhale' },
+        { phase: 'もう一度吐きながら高くかかとを上げる！', duration: 6, type: 'exhale' },
+        { phase: 'ふくらはぎをギュッと収縮させて耐える！', duration: 7, type: 'hold' }
+      ]
+    },
+    stepper: {
+      name: "つま先固定足踏み (Silent Stepper)",
+      desc: "【自宅・静音有酸素】つま先を床につけたまま、かかとを左右交互にリズムよく上下させてステップを踏みます。",
+      duration: 40,
+      climb: 300,
+      exp: 18,
+      calories: 16,
+      breathPattern: [
+        { phase: '姿勢を正し、リズミカルにステップ開始', duration: 6, type: 'inhale' },
+        { phase: 'つま先を軸にしてかかとを交互に上下！', duration: 10, type: 'exhale' },
+        { phase: 'ふくらはぎを動かしたままリズム維持！', duration: 8, type: 'hold' },
+        { phase: '深く大きく呼吸しながらステップ', duration: 6, type: 'inhale' },
+        { phase: 'かかとを踏み込み続け、下半身を活性化！', duration: 10, type: 'exhale' }
+      ]
     }
   };
 
