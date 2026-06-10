@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body class="cyber-dark">
   <!-- Interactive canvas for silent reward particles -->
@@ -441,6 +441,23 @@
                 </div>
               </div>
 
+              <!-- Exercise Item 12 (Home / Split Squat) -->
+              <div class="exercise-card-item" data-ex-id="splitsquat">
+                <div class="ex-info">
+                  <span class="ex-difficulty hard" style="color: #818cf8;">★★★☆ (上級・美脚🏠)</span>
+                  <h4>スプリット・スクワット (Split Squats)</h4>
+                  <p>足を前後に大きく開き、垂直に腰を落とします。お尻と内ももを強烈に引き締め！</p>
+                </div>
+                <div class="ex-rewards">
+                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+500m</span>
+                  <span class="reward-exp">EXP +28</span>
+                </div>
+                <div class="ex-actions-row">
+                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #3b82f6, #4f46e5);">スタート (45秒)</button>
+                  <button class="ex-direct-btn">やった！</button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -650,6 +667,40 @@
       </section>
       
     </main>
+  </div>
+
+  <!-- Summit Celebration Modal Overlay -->
+  <div class="cert-modal-overlay" id="celebration-modal">
+    <div class="celebration-modal-card">
+      <button class="cert-close-btn" id="celebration-close-btn">&times;</button>
+      <div class="celebration-frame">
+        <div class="celebration-badge">🏆 SUMMIT COMPLETE 🏆</div>
+        <h2 class="celebration-title">✨ CONGRATULATIONS! ✨</h2>
+        
+        <div class="celebration-mountain-box">
+          <span class="celebration-mountain-name" id="celebration-mt-name">カイラス山</span>
+          <span class="celebration-mountain-height" id="celebration-mt-height">6,638m</span>
+        </div>
+
+        <div class="celebration-content">
+          <p class="celebration-message" id="celebration-msg">
+            おめでとうございます！あなたは日々の過酷なデスクワークや自宅でのトレーニングという絶壁を登りきり、ついに栄光の山頂へ到達しました！
+          </p>
+          <div class="celebration-divider"></div>
+          <div class="celebration-trivia">
+            <h4>🏔️ この名峰の物語とロマン</h4>
+            <p id="celebration-trivia-text">
+              チベット西部にそびえる聖峰。4つの宗教の聖地であり、未だ誰も登頂していない「生涯未踏の聖山」。
+            </p>
+          </div>
+        </div>
+
+        <div class="celebration-footer" style="width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 16px;">
+          <button id="show-cert-from-celebration-btn" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">🏆 栄誉の登頂証明書を見る</button>
+          <button id="celebration-ok-btn" class="secondary-btn">次の山岳アタックへ</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Certificate Modal Overlay -->

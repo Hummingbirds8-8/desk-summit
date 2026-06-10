@@ -52,37 +52,49 @@ document.addEventListener('DOMContentLoaded', () => {
       name: "カイラス山",
       height: 6638,
       difficulty: "★☆☆☆",
-      desc: "チベット西部にそびえる聖峰。4つの宗教の最も神聖な聖地であり、信仰の尊厳を守るため歴史上未だ誰も登頂していない、立ち入りすら完全禁止の「生涯未踏の聖山」。"
+      desc: "チベット西部にそびえる聖峰。4つの宗教の最も神聖な聖地であり、信仰の尊厳を守るため歴史上未だ誰も登頂していない、立ち入りすら完全禁止の「生涯未踏の聖山」。",
+      congratsMsg: "おめでとうございます！信仰の尊厳を守るため、人類が誰も足を踏み入れたことのない聖峰「カイラス山」の仮想登頂に成功しました！",
+      achievementDesc: "チベット西部にそびえる標高6,638mのカイラス山は、仏教、ヒンドゥー教、ボン教、ジャイナ教の4つの宗教で最も神聖な聖地とされています。神々の宿る山として信仰され、今なお登頂することは固く禁じられており、人類史上誰一人として頂上に立った者はいません。あなたは日々のデスクワークの合間にその聖なる険しさを乗り越えました！"
     },
     kawagarbo: {
       name: "カワカブ/梅里雪山",
       height: 6740,
       difficulty: "★★☆☆",
-      desc: "チベット仏教の八大聖山の一つ。1991年の大規模遭難事故以降、地元の強い信仰心と安全確保のため、法的に登山が永久に完全禁止された「不可侵の美しき処女峰」。"
+      desc: "チベット仏教の八大聖山の一つ。1991年の大規模遭難事故以降、地元の強い信仰心と安全確保のため、法的に登山が永久に完全禁止された「不可侵の美しき処女峰」。",
+      congratsMsg: "おめでとうございます！処女峰の美しき輝きを放つ、法的に不可侵の聖山「カワカブ」の仮想登頂に成功しました！",
+      achievementDesc: "チベット仏教の八大聖山の一つ。1991年に日中合同登山隊が遭遇した未曾有の大遭難事故を経て、地元住民の強い信仰心と自然・人命の尊重から、2001年に法的に永久登山禁止となった「神聖なる未踏峰」です。その不可侵の山頂を、あなたのひたむきな努力が見事に捉えました！"
     },
     machapuchare: {
       name: "マチャプチャレ",
       height: 6993,
       difficulty: "★★☆☆",
-      desc: "ネパール・ヒマラヤ山脈の聖峰。「魚の尾」を意味する双耳峰。ヒンドゥー教の主神シヴァが住むとされ、1957年以降すべての立ち入り・登山が完全禁止されている幻の山。"
+      desc: "ネパール・ヒマラヤ山脈の聖峰。「魚の尾」を意味する双耳峰。ヒンドゥー教の主神シヴァが住むとされ、1957年以降すべての立ち入り・登山が完全禁止されている幻の山。",
+      congratsMsg: "おめでとうございます！神シヴァの宿るヒマラヤの怪鳥の尾、「マチャプチャレ」の仮想登頂に成功しました！",
+      achievementDesc: "ネパール語で「魚の尾」を意味する美しい双耳峰。ヒンドゥー教の主神シヴァが住まう聖域と信じられており、1957年にイギリス隊が山頂手前50mまで迫ったのを最後に、ネパール政府により登山が完全に禁止されました。世界で最も美しい山とも称される幻の頂を制した瞬間です！"
     },
     nangaparbat: {
       name: "ナンガ・パルバット",
       height: 8126,
       difficulty: "★★★☆",
-      desc: "パキスタンにある世界第9位の高峰。「人喰い山」とも恐れられ、標高差4,600mにも及ぶルパール絶壁を抱える、世界で最も過酷かつ危険極まりない難関巨峰。"
+      desc: "パキスタンにある世界第9位の高峰。「人喰い山」とも恐れられ、標高差4,600mにも及ぶルパール絶壁を抱える、世界で最も過酷かつ危険極まりない難関巨峰。",
+      congratsMsg: "おめでとうございます！標高差4,600mのルパール絶壁を越え、恐るべき人喰い山「ナンガ・パルバット」の仮想登頂に成功しました！",
+      achievementDesc: "パキスタンに位置する世界第9位の高峰（8,126m）。「人喰い山」の異名を持ち、特に標高差4,600mの一枚岩である「ルパール壁」は世界最大の標高差を持つ壁としてクライマーの前に立ちはだかります。極限の精神と体幹をもって、この峻険な山頂を完全に制圧しました！"
     },
     kangchenjunga: {
       name: "カンチェンジュンガ",
       height: 8586,
       difficulty: "★★★★",
-      desc: "ネパールとインドの国境にまたがる世界第3位の高峰。「5つの雪の宝庫」を意味し、強烈な雪崩、強風、そして極限の気象変化がクライマーを阻み続けるヒマラヤの超巨大峰。"
+      desc: "ネパールとインドの国境にまたがる世界第3位の高峰。「5つの雪の宝庫」を意味し、強烈な雪崩、強風、そして極限の気象変化がクライマーを阻み続けるヒマラヤの超巨大峰。",
+      congratsMsg: "おめでとうございます！5つの雪の宝庫を抱く、雪崩と激風の巨大怪峰「カンチェンジュンガ」の仮想登頂に成功しました！",
+      achievementDesc: "インド最高峰であり、世界第3位（8,586m）の威容を誇る超巨大な山塊。名前は「5つの雪の宝庫」を意味し、強烈な雪崩や容赦のないブリザードが挑戦者を拒み続けます。お腹の筋肉を限界まで絞り出し、この荒ぶる巨大峰の頂点にたどり着いたのは歴史的快挙です！"
     },
     everest: {
       name: "エベレスト",
       height: 8848,
       difficulty: "★★★★☆",
-      desc: "ネパールとチベットにまたがる世界最高峰（チョモランマ）。全人類の最高到達点であり、デスゾーン（極限の超高所）がそびえる地球上で最も宇宙に近い頂き。"
+      desc: "ネパールとチベットにまたがる世界最高峰（チョモランマ）。全人類の最高到達点であり、デスゾーン（極限の超高所）がそびえる地球上で最も宇宙に近い頂き。",
+      congratsMsg: "おめでとうございます！全人類の限界を超え、宇宙に最も近い地球の最高到達点「エベレスト」の仮想登頂を達成しました！",
+      achievementDesc: "ネパールとチベットの国境にそびえる世界最高峰（8,848m）。気圧が地上の3分の1になり、人間が生存できない「デスゾーン（死の領域）」が存在します。デスクの上の戦いを制し、この地球の最も天に近い場所にあなたの旗を打ち立てました！"
     }
   };
 
@@ -260,6 +272,22 @@ document.addEventListener('DOMContentLoaded', () => {
         { phase: 'ふくらはぎを動かしたままリズム維持！', duration: 8, type: 'hold' },
         { phase: '深く大きく呼吸しながらステップ', duration: 6, type: 'inhale' },
         { phase: 'かかとを踏み込み続け、下半身を活性化！', duration: 10, type: 'exhale' }
+      ]
+    },
+    splitsquat: {
+      name: "スプリット・スクワット (Split Squats)",
+      desc: "【自宅・身幅引き締め】足を前後に大きく開き、垂直に腰を落とします。お尻と内ももを強烈に引き締め！",
+      duration: 45,
+      climb: 500,
+      exp: 28,
+      calories: 24,
+      breathPattern: [
+        { phase: '足を前後に大きく開き、息を吸う', duration: 5, type: 'inhale' },
+        { phase: 'ゆっくり吐きながら垂直に深く下りる', duration: 8, type: 'exhale' },
+        { phase: '後ろの膝を床スレスレでピタッとキープ！', duration: 8, type: 'hold' },
+        { phase: '吸いながら力強く立ち上がる', duration: 5, type: 'inhale' },
+        { phase: '足を左右入れ替えて、もう一度深く下りる！', duration: 10, type: 'exhale' },
+        { phase: 'ブレずに体幹を固定してキープ！', duration: 9, type: 'hold' }
       ]
     }
   };
@@ -923,17 +951,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const newHeight = Math.min(targetHeight, prevHeight + metersClimbed);
     state.mountainProgress[state.activeMountainId] = newHeight;
 
-    // Check if summit completed for first time, to grant certificate!
+    // Check if summit completed!
     if (prevHeight < targetHeight && newHeight >= targetHeight) {
-      const alreadyOwned = state.completedClimbs.some(c => c.mountainId === state.activeMountainId);
-      if (!alreadyOwned) {
-        state.completedClimbs.push({
-          mountainId: state.activeMountainId,
-          dateStr: new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-'),
-          rank: state.level
-        });
-        saveGameData();
-      }
+      handleSummitReached(state.activeMountainId);
     }
 
     state.totalExercisesDone += 1;
@@ -1089,7 +1109,11 @@ document.addEventListener('DOMContentLoaded', () => {
           els.guideBalloon.textContent = "エネルギーバーを補給！体力が回復し、一気に高度が **+500m** 進みました！🔋";
           els.guideBalloon.classList.add('pop-balloon');
           
-          checkForCampCheckpoints(prevHeight, newHeight, targetHeight);
+          if (prevHeight < targetHeight && newHeight >= targetHeight) {
+            handleSummitReached(state.activeMountainId);
+          } else {
+            checkForCampCheckpoints(prevHeight, newHeight, targetHeight);
+          }
           
         } else if (itemId === 'salad') {
           // Vitamin Suppli: Next exercise gives x2 height meters!
@@ -1324,6 +1348,39 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       state.isDeathZone = false;
     }
+  }
+
+  function showSummitCelebration(mountainId) {
+    const celebrationModal = document.getElementById('celebration-modal');
+    const mt = MOUNTAINS[mountainId];
+    if (!celebrationModal || !mt) return;
+
+    document.getElementById('celebration-mt-name').textContent = mt.name;
+    document.getElementById('celebration-mt-height').textContent = mt.height.toLocaleString() + "m";
+    document.getElementById('celebration-msg').textContent = mt.congratsMsg || "";
+    document.getElementById('celebration-trivia-text').textContent = mt.achievementDesc || "";
+
+    // 盛大なスターシャワー & レインボー紙吹雪 (350個)
+    triggerCanvasConfetti(350);
+
+    celebrationModal.classList.add('active');
+  }
+
+  function handleSummitReached(mountainId) {
+    const alreadyOwned = state.completedClimbs.some(c => c.mountainId === mountainId);
+    if (!alreadyOwned) {
+      state.completedClimbs.push({
+        mountainId: mountainId,
+        dateStr: new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-'),
+        rank: state.level
+      });
+      saveGameData();
+    }
+    
+    // UIを更新して証明書リストや登頂マークを反映
+    updateUI();
+
+    showSummitCelebration(mountainId);
   }
 
   function renderCertificatesList() {
@@ -1583,6 +1640,43 @@ document.addEventListener('DOMContentLoaded', () => {
         certModal.classList.remove('active');
       }
     });
+  }
+
+  // Celebration Modal Bindings
+  const celebrationModal = document.getElementById('celebration-modal');
+  const celebrationCloseBtn = document.getElementById('celebration-close-btn');
+  const celebrationOkBtn = document.getElementById('celebration-ok-btn');
+  const showCertFromCelebrationBtn = document.getElementById('show-cert-from-celebration-btn');
+
+  if (celebrationModal) {
+    const closeCelebration = () => {
+      celebrationModal.classList.remove('active');
+    };
+
+    if (celebrationCloseBtn) celebrationCloseBtn.addEventListener('click', closeCelebration);
+    if (celebrationOkBtn) celebrationOkBtn.addEventListener('click', closeCelebration);
+
+    celebrationModal.addEventListener('click', (e) => {
+      if (e.target === celebrationModal) {
+        closeCelebration();
+      }
+    });
+
+    if (showCertFromCelebrationBtn) {
+      showCertFromCelebrationBtn.addEventListener('click', () => {
+        closeCelebration();
+        // 既存の登頂証明書を開く
+        let cert = state.completedClimbs.find(c => c.mountainId === state.activeMountainId);
+        if (!cert) {
+          cert = {
+            mountainId: state.activeMountainId,
+            dateStr: new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-'),
+            rank: state.level
+          };
+        }
+        openCertificateModal(cert);
+      });
+    }
   }
 
   // ==========================================
