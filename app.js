@@ -2552,6 +2552,15 @@ function renderFavoritesListView() {
 // 9. APP INITIALIZATION
 // --------------------------------------------------------------------------
 function init() {
+    // 給食データやお気に入りを残したまま、牛肉頻度減ルールで夕食提案のみを自動再計算するための1回限りの移行処理
+    const migrationKey = 'menuharmony_migration_v2';
+    if (!localStorage.getItem(migrationKey)) {
+        localStorage.removeItem('menuharmony_proposed_dinners');
+        STATE.proposedDinners = {};
+        clearAllAiCaches();
+        safeLocalStorageSet(migrationKey, 'completed');
+    }
+
     if (Object.keys(STATE.nurseryMenu).length === 0 && Object.keys(STATE.schoolMenu).length === 0) {
         STATE.nurseryMenu = { ...DEMO_NURSERY_MENU };
         STATE.schoolMenu = { ...DEMO_SCHOOL_MENU };
