@@ -670,6 +670,11 @@ function optimizeMonthlyDinnerProposals() {
                 score += Math.max(0, 90 - daysAgo * 10);
             }
 
+            // 牛肉の出現頻度を下げるための追加ペナルティ
+            if (protein.key === 'beef') {
+                score += 30;
+            }
+
             // 昼の給食（園・小）の食材との重複チェック
             const lunchText = (nurseryLunch + ' ' + schoolLunch).toLowerCase();
             protein.keywords.forEach(keyword => {
