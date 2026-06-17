@@ -1,2193 +1,799 @@
-/* ==========================================
-   DESKSUMMIT - PREMIUM CYBER CLIMBER CSS
-   ========================================== */
+/* DeskSummit - Modern Light Theme CSS */
 
-/* 1. DESIGN TOKENS & SYSTEM RESET */
 :root {
-  --font-display: 'Outfit', 'Noto Sans JP', sans-serif;
-  --font-sans: 'Inter', 'Noto Sans JP', sans-serif;
-
-  /* HSL Cyber Mountain Colors */
-  --bg-deep: 232, 23%, 6%;        /* #0a0b10 */
-  --bg-panel: 230, 20%, 10%;      /* #12141f */
-  --accent-teal: 174, 84%, 41%;   /* #0d9488 - Teal */
-  --accent-cyan: 190, 90%, 50%;   /* #06b6d4 - Cyber Cyan */
-  --accent-emerald: 150, 84%, 53%; /* #10b981 - Neon Emerald */
-  --accent-blue: 217, 91%, 60%;   /* #3b82f6 - Hiker Blue */
-  --accent-yellow: 45, 93%, 47%;  /* #f59e0b - Warm Gold */
-  
-  --color-text-primary: 210, 40%, 98%;   /* Almost white */
-  --color-text-secondary: 215, 20%, 65%; /* Soft lavender grey */
-  
-  /* Glassmorphism settings */
-  --glass-bg: rgba(18, 20, 31, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: rgba(0, 0, 0, 0.4);
-  --glass-glow: rgba(13, 148, 136, 0.15);
-  
-  --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --primary: #0ea5e9;       /* Sky Blue */
+  --primary-hover: #0284c7;
+  --secondary: #64748b;     /* Slate */
+  --accent: #10b981;        /* Emerald Green */
+  --accent-hover: #059669;
+  --bg-app: #f0f9ff;         /* Very Light Blue */
+  --bg-card: #ffffff;       /* Pure White */
+  --text-main: #1e293b;     /* Dark Slate */
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --border-light: #bae6fd;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(14, 165, 233, 0.08);
+  --shadow-lg: 0 10px 25px rgba(14, 165, 233, 0.12);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Global resets & scrollbar removal for mobile widget feel */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
-body.cyber-dark {
-  background-color: hsl(var(--bg-deep));
-  background-image: 
-    radial-gradient(at 10% 20%, rgba(13, 148, 136, 0.12) 0px, transparent 50%),
-    radial-gradient(at 90% 80%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
-  color: hsl(var(--color-text-primary));
-  font-family: var(--font-sans);
-  min-height: 100vh;
+body {
+  font-family: 'Outfit', 'Noto Sans JP', -apple-system, sans-serif;
+  background-color: #e0f2fe;
+  color: var(--text-main);
+  line-height: 1.5;
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow-x: hidden;
-  padding: 20px;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0;
 }
 
-/* Background canvas for confetti */
+/* Particle Canvas for Rewards (Absolutely Overlay) */
 #particle-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 999;
 }
 
-/* 2. MAIN LAYOUT AND TRANSITIONS */
+/* Main Container (Mobile Screen Constrained) */
 #app-wrapper {
   width: 100%;
-  max-width: 950px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  box-shadow: 0 20px 50px var(--glass-shadow), 0 0 40px var(--glass-glow);
-  overflow: hidden;
-  transition: var(--transition-bounce);
+  max-width: 480px;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  box-shadow: 0 0 30px rgba(2, 132, 199, 0.15);
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  border-left: 1px solid var(--border-light);
+  border-right: 1px solid var(--border-light);
 }
 
-/* Layout transition for WIDGET MODE */
-#app-wrapper.widget-layout {
-  max-width: 320px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(13, 148, 136, 0.1);
-}
-
-/* HEADER BAR */
+/* Header */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--glass-border);
-  background: rgba(10, 11, 16, 0.4);
+  padding: 16px 20px;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
-.logo-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, hsl(var(--accent-teal)), hsl(var(--accent-blue)));
-  box-shadow: 0 0 12px hsl(var(--accent-teal));
-  position: relative;
-}
-.logo-icon::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  border-radius: 4px;
-  background-color: hsl(var(--bg-deep));
+.logo-emoji {
+  font-size: 24px;
 }
 
 .logo-text h1 {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 18px;
   font-weight: 800;
-  letter-spacing: 0.5px;
-  background: linear-gradient(90deg, #ffffff, hsl(var(--color-text-secondary)));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary);
+  letter-spacing: -0.5px;
 }
 
 .logo-text .subtext {
-  font-size: 0.7rem;
-  color: hsl(var(--color-text-secondary));
+  font-size: 10px;
+  color: var(--text-muted);
   display: block;
+  margin-top: -2px;
 }
 
+/* Badge (Streak count) */
 .header-badges {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .stat-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--glass-border);
-  font-size: 0.85rem;
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.stat-badge .badge-text {
-  display: inline-flex;
-  align-items: center;
   gap: 4px;
-  white-space: nowrap;
-}
-
-/* Specific Badges styling */
-.streak-badge {
-  color: #ff5722;
-  box-shadow: inset 0 0 6px rgba(255, 87, 34, 0.1);
-}
-.streak-badge svg {
-  width: 16px;
-  height: 16px;
-  fill: #ff5722;
-  filter: drop-shadow(0 0 3px rgba(255, 87, 34, 0.5));
-}
-
-.level-badge {
-  color: hsl(var(--accent-cyan));
-  border-color: rgba(6, 182, 212, 0.3);
-}
-.level-badge .badge-label {
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  color: hsl(var(--color-text-secondary));
-}
-
-.coins-badge {
-  color: #2dd4bf;
-  border-color: rgba(45, 212, 191, 0.3);
-}
-
-.coin-symbol {
-  width: 14px;
-  height: 14px;
-  background: radial-gradient(circle, #5eead4 20%, #0d9488 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 6px #0d9488, 0 1px 1px rgba(0,0,0,0.4);
-}
-
-/* Layout Toggler */
-.layout-toggle-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.2), rgba(59, 130, 246, 0.2));
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 12px;
-  cursor: pointer;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
   font-weight: 600;
-  font-size: 0.8rem;
-  transition: var(--transition-smooth);
-}
-.layout-toggle-btn:hover {
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.3), rgba(59, 130, 246, 0.3));
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-.layout-toggle-btn svg {
-  width: 16px;
-  height: 16px;
+  color: #ef4444;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
 }
 
-/* Header layout differences in Widget mode */
-#app-wrapper.widget-layout .app-header {
-  padding: 10px 14px;
-}
-#app-wrapper.widget-layout .logo-text,
-#app-wrapper.widget-layout .streak-badge,
-#app-wrapper.widget-layout .layout-toggle-btn .btn-text {
-  display: none;
-}
-#app-wrapper.widget-layout .logo-area {
-  gap: 0;
+.stat-badge:active {
+  transform: scale(0.95);
 }
 
-/* 3. MAIN BODY CONTAINER */
-.app-body {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  padding: 24px;
-  gap: 24px;
-  flex-grow: 1;
+/* General Layout sections */
+.widget-section, .mountain-section, .control-section {
+  padding: 16px 20px;
 }
 
-/* Main Body stack in Widget Mode */
-#app-wrapper.widget-layout .app-body {
-  grid-template-columns: 1fr;
-  padding: 12px;
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+/* Calendar Widget */
+.calendar-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.calendar-scroll-container::-webkit-scrollbar {
+  height: 4px;
+}
+.calendar-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.calendar-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 2px;
+}
+
+.calendar-widget {
+  display: flex;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.calendar-card {
+  flex: 0 0 58px;
+  height: 74px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.calendar-card .day-name {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.calendar-card .day-num {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Today style */
+.calendar-card.today {
+  border-color: var(--primary);
+  background-color: #f0f9ff;
+  color: var(--primary);
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.2);
+}
+
+.calendar-card.today::before {
+  content: 'TODAY';
+  position: absolute;
+  top: -6px;
+  font-size: 7px;
+  font-weight: 800;
+  background-color: var(--primary);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+/* Done (completed) style */
+.calendar-card.done {
+  background-color: #ecfdf5;
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+.calendar-card.done::after {
+  content: '🏔️';
+  position: absolute;
+  bottom: 4px;
+  font-size: 10px;
+}
+
+/* Mountain Progress View */
+.mountain-section {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-/* 4. GLASS PANEL STYLING */
-.glass-panel {
-  background: rgba(18, 20, 31, 0.45);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-header {
+.mountain-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
 }
 
-.card-header-climb {
+.mountain-selector-wrapper {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 6px;
-  margin-bottom: 16px;
-}
-.dropdown-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: hsl(var(--color-text-secondary));
-  letter-spacing: 0.5px;
-}
-.mountain-dropdown {
-  background: rgba(10, 11, 16, 0.8);
-  border: 1px solid var(--glass-border);
-  color: #fff;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  outline: none;
-  font-family: var(--font-sans);
-  transition: var(--transition-smooth);
-}
-.mountain-dropdown:hover, .mountain-dropdown:focus {
-  border-color: hsl(var(--accent-teal));
-  box-shadow: 0 0 10px rgba(13, 148, 136, 0.25);
-}
-
-.card-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-/* 5. MOUNTAIN GRAPHICAL DISPLAY */
-.mountain-display-container {
-  height: 220px;
-  display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-/* Vertical Height Progress Bar */
-.climb-progress-bar-vertical {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  height: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.climb-progress-track {
-  width: 6px;
-  height: calc(100% - 20px);
-  background: rgba(255,255,255,0.05);
-  border-radius: 3px;
-  position: absolute;
-  top: 10px;
-  overflow: hidden;
-}
-
-.climb-progress-fill-vertical {
   width: 100%;
-  height: 0%;
-  background: linear-gradient(to top, hsl(var(--accent-blue)), hsl(var(--accent-teal)), hsl(var(--accent-emerald)));
-  border-radius: 3px;
-  position: absolute;
-  bottom: 0;
-  transition: height 0.8s cubic-bezier(0.1, 0.8, 0.2, 1);
 }
 
-/* Checkpoint Camps */
-.camp-marker {
-  position: absolute;
-  font-size: 0.7rem;
-  transform: translateX(-50%);
-  left: 50%;
-  cursor: pointer;
-  transition: var(--transition-bounce);
-  z-index: 5;
-}
-.camp-marker:hover {
-  transform: translateX(-50%) scale(1.3);
-}
-.marker-bc { bottom: 6px; }
-.marker-summit { top: -2px; }
-
-/* Hiker Pin */
-.hiker-pin {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 50%); /* Center pin relative to bottom */
-  transition: bottom 0.8s cubic-bezier(0.1, 0.8, 0.2, 1);
-  z-index: 10;
-  pointer-events: none;
+.selector-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
-.hiker-emoji {
-  font-size: 1.15rem;
-  display: inline-block;
-  animation: hikerClimbPulse 2s infinite ease-in-out;
+.mountain-dropdown {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-card);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  outline: none;
 }
 
-/* Mountain Graphic Area */
-.mountain-display {
-  border-radius: 16px;
-  background: linear-gradient(to bottom, #070913 0%, #111827 75%, #1e1b4b 100%);
-  border: 1px solid var(--glass-border);
+/* Mountain visual display */
+.mountain-display-container {
   position: relative;
+  height: 240px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
   overflow: hidden;
-  cursor: pointer;
-  user-select: none;
+  box-shadow: var(--shadow-md);
 }
 
-/* Sky Sun/Stars Glow */
-.sky-sun-glow {
+/* Sky gradient */
+.mountain-sky {
   position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle, rgba(13, 148, 136, 0.35) 0%, rgba(59, 130, 246, 0.08) 60%, transparent 100%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #bae6fd, #e0f2fe, #f0f9ff);
+  z-index: 1;
+}
+
+.sky-sun {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+  width: 45px;
+  height: 45px;
+  background: radial-gradient(circle, #fffbeb 20%, #fef08a 60%, #fde047 100%);
   border-radius: 50%;
-  filter: blur(10px);
-  z-index: 1;
-}
-
-.sky-stars {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 60px;
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 60px 80px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 120px 20px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 180px 90px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 220px 40px, #fff, rgba(0,0,0,0));
-  opacity: 0.45;
-  z-index: 1;
+  box-shadow: 0 0 20px #fef08a;
 }
 
 /* Floating Clouds */
 .floating-cloud {
   position: absolute;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(1px);
+  background-color: rgba(255, 255, 255, 0.85);
   border-radius: 20px;
-  z-index: 3;
-  pointer-events: none;
-}
-.cloud1 {
-  width: 60px; height: 16px;
-  top: 30px; left: -70px;
-  animation: floatCloudLeft 25s infinite linear;
-}
-.cloud2 {
-  width: 45px; height: 12px;
-  top: 75px; right: -55px;
-  animation: floatCloudRight 18s infinite linear;
-  background: rgba(255, 255, 255, 0.04);
+  z-index: 2;
+  filter: blur(1px);
 }
 
-/* CSS Mountain Layers */
+.floating-cloud::before, .floating-cloud::after {
+  content: '';
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+}
+
+.cloud1 {
+  width: 60px;
+  height: 18px;
+  top: 50px;
+  left: 10%;
+  animation: floatCloud 25s linear infinite;
+}
+.cloud1::before {
+  width: 25px;
+  height: 25px;
+  top: -10px;
+  left: 10px;
+}
+.cloud1::after {
+  width: 20px;
+  height: 20px;
+  top: -6px;
+  left: 28px;
+}
+
+.cloud2 {
+  width: 80px;
+  height: 22px;
+  top: 90px;
+  right: 10%;
+  animation: floatCloud 35s linear infinite reverse;
+}
+.cloud2::before {
+  width: 35px;
+  height: 35px;
+  top: -15px;
+  left: 15px;
+}
+.cloud2::after {
+  width: 25px;
+  height: 25px;
+  top: -8px;
+  left: 40px;
+}
+
+@keyframes floatCloud {
+  0% { transform: translateX(-50px); }
+  100% { transform: translateX(450px); }
+}
+
+/* Mountain layers designed with clip-paths */
 .mountain-layer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 100px;
-  transform-origin: bottom center;
+  transition: var(--transition);
 }
 
-/* Layer Back (Far deep purple peak) */
-.mountain-layer.layer-back {
-  background: #1e1b4b;
-  clip-path: polygon(15% 30%, 35% 10%, 55% 45%, 80% 20%, 100% 50%, 100% 100%, 0% 100%, 0% 50%);
-  opacity: 0.6;
-  height: 130px;
-  z-index: 2;
-}
-
-/* Layer Mid (Mid deep teal peak) */
-.mountain-layer.layer-mid {
-  background: #0f766e;
-  clip-path: polygon(0% 70%, 25% 40%, 48% 68%, 70% 30%, 90% 55%, 100% 45%, 100% 100%, 0% 100%);
-  opacity: 0.8;
-  height: 105px;
+.layer-back {
+  height: 70%;
+  background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+  clip-path: polygon(0 100%, 35% 30%, 55% 45%, 75% 20%, 100% 100%);
   z-index: 3;
+  opacity: 0.8;
 }
 
-/* Layer Front (Vibrant main cyan peaks) */
-.mountain-layer.layer-front {
-  background: linear-gradient(180deg, #0d9488 0%, #115e59 100%);
-  clip-path: polygon(0% 85%, 15% 65%, 38% 35%, 60% 75%, 78% 50%, 100% 85%, 100% 100%, 0% 100%);
-  height: 85px;
+.layer-mid {
+  height: 55%;
+  background: linear-gradient(135deg, #6ee7b7, #34d399);
+  clip-path: polygon(0 100%, 20% 40%, 45% 25%, 70% 50%, 100% 100%);
   z-index: 4;
+  opacity: 0.9;
+}
+
+.layer-front {
+  height: 40%;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  clip-path: polygon(0 100%, 30% 20%, 65% 40%, 85% 15%, 100% 100%);
+  z-index: 5;
+  box-shadow: inset 0 10px 20px rgba(0,0,0,0.05);
 }
 
 /* Summit Flag */
 .summit-flag {
   position: absolute;
-  left: var(--summit-x, 38%); /* Dynamic peak alignment */
-  bottom: var(--summit-y, 65px); /* Sits right at peak height */
-  font-size: 0.95rem;
-  z-index: 5;
-  animation: flagWave 2s infinite ease-in-out;
-  filter: drop-shadow(0 0 4px #e11d48);
-  transition: left 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), bottom 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
-
-/* Shop item overlay visual items */
-.gear-overlay {
-  position: absolute;
-  font-size: 1.2rem;
+  font-size: 16px;
   z-index: 6;
-  opacity: 0;
-  transition: var(--transition-bounce);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  bottom: 80%; /* Will align with peak of layer-front */
+  left: 30%;
+  animation: flagWave 2s ease-in-out infinite alternate;
+  transform-origin: bottom left;
 }
-#gear-backpack-visual { bottom: 12px; left: 16px; }
-#gear-iceaxe-visual { bottom: 14px; right: 20px; transform: rotate(-15deg); }
-#gear-oxygen-visual { bottom: 42px; left: 52%; }
 
-.has-backpack #gear-backpack-visual { opacity: 1; transform: translateY(0) scale(1); }
-.has-iceaxe #gear-iceaxe-visual { opacity: 1; transform: rotate(-15deg) scale(1); }
-.has-oxygen #gear-oxygen-visual { opacity: 1; transform: scale(1); }
+@keyframes flagWave {
+  0% { transform: rotate(-5deg) scale(1); }
+  100% { transform: rotate(10deg) scale(1.1); }
+}
 
-/* Tent styled Mountain dialog balloon */
+/* Climber Hiker Pin */
+.hiker-pin {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  left: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: bottom 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), left 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hiker-emoji {
+  font-size: 26px;
+  animation: climbBounce 0.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+.hiker-label {
+  font-size: 8px;
+  background-color: var(--text-main);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-weight: 700;
+  margin-top: -2px;
+  white-space: nowrap;
+}
+
+@keyframes climbBounce {
+  0% { transform: translateY(0) rotate(-5deg); }
+  100% { transform: translateY(-4px) rotate(5deg); }
+}
+
+/* Hiker Advice Balloon */
 .mountain-balloon {
   position: absolute;
-  top: 14px;
-  left: 14px;
-  right: 14px;
-  background: rgba(18, 20, 31, 0.9);
-  border: 1px solid rgba(45, 212, 191, 0.35);
-  border-radius: 12px;
-  color: #fff;
+  top: 15px;
+  left: 15px;
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
   padding: 8px 12px;
-  font-size: 0.78rem;
-  line-height: 1.45;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 0 0 10px rgba(13,148,136,0.1);
-  opacity: 0;
-  transform: scale(0.8) translateY(10px);
-  transition: var(--transition-bounce);
+  font-size: 11px;
+  font-weight: 500;
+  max-width: 220px;
+  box-shadow: var(--shadow-md);
+  z-index: 15;
   pointer-events: none;
-  z-index: 20;
+  animation: balloonPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 .mountain-balloon::after {
   content: '';
   position: absolute;
   bottom: -6px;
-  left: 24px;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid rgba(18, 20, 31, 0.9);
-}
-.mountain-balloon.pop-balloon {
-  opacity: 1;
-  transform: scale(1) translateY(0);
+  left: 20px;
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.92) transparent;
+  display: block;
+  width: 0;
 }
 
-/* Stats Displays */
-.avatar-stats-box {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+@keyframes balloonPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-.stat-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.8rem;
-}
-
-.stat-line .lbl {
-  color: hsl(var(--color-text-secondary));
-  width: 72px;
-  font-weight: 500;
-}
-
-.stat-progress-bar {
-  flex-grow: 1;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 4px;
-  width: 0%;
-  transition: width 0.6s cubic-bezier(0.1, 0.8, 0.2, 1);
-}
-.fat-fill {
-  background: linear-gradient(90deg, #ec4899, #f43f5e);
-  box-shadow: 0 0 6px rgba(244, 63, 94, 0.4);
-}
-.core-fill {
-  background: linear-gradient(90deg, #10b981, #059669);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
-}
-.exp-fill {
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
-  box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
-}
-
-.stat-line .val {
-  font-family: var(--font-display);
-  font-weight: 600;
-  width: 48px;
-  text-align: right;
-}
-
-.stat-line .val-wide {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.72rem;
-  width: 105px;
-  text-align: right;
-  color: #2dd4bf;
-}
-
-/* Button Styles */
-.avatar-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.primary-btn, .secondary-btn, .action-btn, .danger-btn {
-  font-family: var(--font-sans);
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition-smooth);
-}
-
-.secondary-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  color: #fff;
-  padding: 10px 16px;
-  font-size: 0.85rem;
-  width: 100%;
-}
-.secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255,255,255,0.25);
-  transform: translateY(-1px);
-}
-
-/* 6. PANEL CONTROLS AND NAVIGATION */
-.panel-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.panel-tabs {
-  display: flex;
-  gap: 6px;
-  background: rgba(10, 11, 16, 0.35);
-  border: 1px solid var(--glass-border);
-  padding: 4px;
-  border-radius: 14px;
-}
-
-.tab-btn {
-  flex-grow: 1;
-  background: transparent;
-  border: none;
-  color: hsl(var(--color-text-secondary));
-  padding: 10px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: var(--transition-smooth);
-}
-
-.tab-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.tab-btn.active {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 2px 8px rgba(0,0,0,0.15);
-}
-
-/* Tab Display transitions */
-.tab-content {
-  display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.tab-content.active {
-  display: flex;
-  flex-direction: column;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 7. TIMER TAB CONTENT STYLES */
-.timer-section {
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px;
-}
-
-.timer-display-container {
-  margin-bottom: 24px;
-  position: relative;
-}
-
-.circular-timer {
-  width: 220px;
-  height: 220px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.progress-ring {
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-
-.ring-bar {
-  transition: stroke-dashoffset 0.35s linear;
-}
-
-.timer-text-content {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.timer-status-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #2dd4bf;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-}
-
-.timer-countdown {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.7));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.timer-hint {
-  font-size: 0.7rem;
-  color: hsl(var(--color-text-secondary));
-  margin-top: 4px;
-}
-
-.timer-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  max-width: 260px;
-  margin-bottom: 20px;
-}
-
-.primary-btn {
-  color: #fff;
-  padding: 14px 24px;
-  font-size: 0.95rem;
-  width: 100%;
-}
-.primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4), 0 0 15px rgba(59, 130, 246, 0.2) !important;
-}
-
-.action-btn {
-  color: #fff;
-  padding: 10px 16px;
-  font-size: 0.85rem;
-  width: 100%;
-}
-.action-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.35);
-}
-
-/* Pulsing highlight for action timers */
-.pulse-glow {
-  position: relative;
-}
-.pulse-glow::after {
-  content: '';
-  position: absolute;
-  top: -2px; left: -2px; right: -2px; bottom: -2px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, hsl(var(--accent-teal)), hsl(var(--accent-blue)));
-  z-index: -1;
-  opacity: 0.3;
-  animation: glowPulse 2s infinite;
-}
-
-.preset-selector {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  max-width: 280px;
-  margin-top: 8px;
-}
-
-.preset-label {
-  font-size: 0.75rem;
-  color: hsl(var(--color-text-secondary));
-  font-weight: 500;
-}
-
-.preset-buttons {
-  display: flex;
-  gap: 4px;
-}
-
-.preset-btn {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--glass-border);
-  color: hsl(var(--color-text-secondary));
-  padding: 4px 8px;
-  font-size: 0.7rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-.preset-btn:hover {
-  background: rgba(255,255,255,0.07);
-  color: #fff;
-}
-.preset-btn.active {
-  background: hsl(var(--accent-teal));
-  border-color: hsl(var(--accent-teal));
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
-}
-
-/* Advice cards styling */
-.advice-card {
-  display: flex;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+/* Progress Stats Card */
+.progress-stats-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
   padding: 12px 16px;
-  border-radius: 14px;
-  margin-top: 20px;
-  width: 100%;
+  box-shadow: var(--shadow-sm);
 }
 
-.advice-icon {
-  font-size: 1.1rem;
-}
-
-.advice-text {
-  font-size: 0.75rem;
-  color: hsl(var(--color-text-secondary));
-  line-height: 1.45;
-}
-
-/* 8. EXERCISE TAB LIST STYLES */
-.exercise-list-panel {
-  gap: 16px;
-}
-
-.panel-section-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.exercise-cards-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 380px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.exercise-card-item {
+.progress-info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 12px 16px;
-  border-radius: 14px;
-  transition: var(--transition-smooth);
-}
-.exercise-card-item:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.ex-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-grow: 1;
-}
-
-.ex-difficulty {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-.ex-difficulty.easy { color: hsl(var(--accent-emerald)); }
-.ex-difficulty.normal { color: hsl(var(--accent-cyan)); }
-.ex-difficulty.hard { color: hsl(var(--accent-blue)); }
-.ex-difficulty.extreme { color: #ec4899; }
-
-.ex-info h4 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #fff;
-}
-
-.ex-info p {
-  font-size: 0.72rem;
-  color: hsl(var(--color-text-secondary));
-  line-height: 1.4;
-}
-
-.ex-rewards {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-.ex-rewards .reward-coin {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #2dd4bf;
-}
-.ex-rewards .reward-exp {
-  color: hsl(var(--accent-cyan));
-}
-
-.ex-start-btn {
-  font-family: var(--font-sans);
-  color: #fff;
-  border: none;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-.ex-start-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35);
-}
-
-/* 9. ACTIVE EXERCISE RUNNING TAB STYLES */
-.exercise-run-panel {
-  align-items: center;
-  padding: 24px;
-}
-
-.run-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.run-tag {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 8px;
-}
-
-.run-header h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-top: 6px;
-  color: #fff;
-}
-
-.run-header p {
-  font-size: 0.75rem;
-  color: hsl(var(--color-text-secondary));
-  margin-top: 4px;
-}
-
-/* Breathing Bubble Guide */
-.breathing-guide-area {
-  height: 180px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-}
-
-.breath-bubble-outer {
-  width: 140px;
-  height: 140px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.breath-bubble {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(13, 148, 136, 0.25) 0%, rgba(6, 182, 212, 0.1) 70%, transparent 100%);
-  border: 1.5px solid rgba(13, 148, 136, 0.4);
-  box-shadow: 0 0 20px rgba(13, 148, 136, 0.2), inset 0 0 15px rgba(13, 148, 136, 0.1);
-  transform: scale(0.6);
-  transform-origin: center;
-  transition: transform 3.8s ease-in-out;
-}
-
-.breath-label {
-  position: absolute;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  pointer-events: none;
-}
-
-/* Countdown bar in running panel */
-.run-countdown-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 280px;
-  margin-bottom: 24px;
-}
-
-.run-timer-digital {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #fff;
-}
-
-.run-progress-container {
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.run-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, hsl(var(--accent-teal)), hsl(var(--accent-blue)));
-  border-radius: 3px;
-  width: 100%;
-  transition: width 1s linear;
-}
-
-.run-controls {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 280px;
-}
-
-.danger-btn {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ef4444;
-  padding: 10px 16px;
-  font-size: 0.85rem;
-  width: 100%;
-}
-.danger-btn:hover {
-  background: rgba(239, 68, 68, 0.25);
-  border-color: rgba(239, 68, 68, 0.5);
-  transform: translateY(-1px);
-}
-
-/* 10. SHOP TAB STYLES */
-.shop-panel {
-  gap: 16px;
-}
-
-.shop-items-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 380px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.shop-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 12px 16px;
-  border-radius: 14px;
-  transition: var(--transition-smooth);
-}
-.shop-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.shop-item-preview {
-  font-size: 2.2rem;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.05);
-}
-
-.shop-item-details {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex-grow: 1;
-}
-
-.shop-item-details h4 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #fff;
-}
-
-.shop-item-desc {
-  font-size: 0.72rem;
-  color: hsl(var(--color-text-secondary));
-  line-height: 1.35;
-}
-
-.shop-item-price {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #2dd4bf;
-  margin-top: 2px;
-}
-
-.buy-btn {
-  font-family: var(--font-sans);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--glass-border);
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-.buy-btn:hover {
-  background: #2dd4bf;
-  border-color: #2dd4bf;
-  color: hsl(var(--bg-deep));
-  transform: scale(1.03);
-  box-shadow: 0 2px 8px rgba(45, 212, 191, 0.35);
-}
-
-/* Purchased status styling */
-.shop-card.purchased .buy-btn {
-  background: rgba(16, 185, 129, 0.15);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: hsl(var(--accent-emerald));
-  cursor: default;
-}
-.shop-card.purchased .buy-btn::before {
-  content: '✓ ';
-}
-.shop-card.purchased .buy-btn:hover {
-  background: rgba(16, 185, 129, 0.15) !important;
-  border-color: rgba(16, 185, 129, 0.3) !important;
-  color: hsl(var(--accent-emerald)) !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* Item purchase shake for fail */
-@keyframes shakeCard {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
-}
-.shop-card.insufficient-funds {
-  animation: shakeCard 0.4s ease-in-out;
-  border-color: rgba(239, 68, 68, 0.5) !important;
-}
-
-/* 11. RECORDS / EVOLUTION ROADMAP */
-.records-panel {
-  gap: 18px;
-}
-
-.records-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.summary-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 12px 6px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
-}
-
-.summary-card .num {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #fff;
-}
-
-.summary-card .lbl {
-  font-size: 0.65rem;
-  color: hsl(var(--color-text-secondary));
-  font-weight: 500;
-}
-
-.abs-evolution-roadmap {
-  background: rgba(10, 11, 16, 0.25);
-  border: 1px solid var(--glass-border);
-  padding: 16px;
-  border-radius: 16px;
-}
-
-.roadmap-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 12px;
-}
-
-.roadmap-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
-}
-.roadmap-steps::before {
-  content: '';
-  position: absolute;
-  left: 12px;
-  top: 14px;
-  bottom: 14px;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.05);
-  z-index: 1;
-}
-
-.roadmap-step {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  position: relative;
-  z-index: 2;
-  opacity: 0.5;
-  transition: var(--transition-smooth);
-}
-.roadmap-step.active {
-  opacity: 1;
-}
-
-.step-circle {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(18, 20, 31, 1);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  color: hsl(var(--color-text-secondary));
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: var(--transition-smooth);
-}
-
-.roadmap-step.active .step-circle {
-  border-color: hsl(var(--accent-cyan));
-  color: #fff;
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
-}
-
-.roadmap-step.completed .step-circle {
-  background: hsl(var(--accent-emerald));
-  border-color: hsl(var(--accent-emerald));
-  color: hsl(var(--bg-deep));
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
-}
-
-.step-label h5 {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: hsl(var(--color-text-secondary));
-}
-.roadmap-step.active .step-label h5 {
-  color: #fff;
-}
-
-.step-label p {
-  font-size: 0.65rem;
-  color: hsl(var(--color-text-secondary));
-  line-height: 1.3;
-  margin-top: 2px;
-}
-
-.reset-data-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.text-danger-btn {
-  background: transparent;
-  border: none;
-  color: rgba(239, 68, 68, 0.5);
-  font-size: 0.7rem;
-  cursor: pointer;
-  padding: 4px 8px;
-  transition: var(--transition-smooth);
-}
-.text-danger-btn:hover {
-  color: #ef4444;
-  text-decoration: underline;
-}
-
-/* 12. CUSTOM KEYFRAME ANIMATIONS */
-
-/* Blinking stars/flag waving */
-@keyframes flagWave {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.05) rotate(8deg); }
-}
-
-@keyframes hikerClimbPulse {
-  0%, 100% { transform: translate(-50%, 50%) scale(1); }
-  50% { transform: translate(-50%, 40%) scale(1.08); }
-}
-
-/* Clouds floating left to right */
-@keyframes floatCloudLeft {
-  0% { transform: translateX(-10px); opacity: 0; }
-  10% { opacity: 0.65; }
-  90% { opacity: 0.65; }
-  100% { transform: translateX(340px); opacity: 0; }
-}
-
-@keyframes floatCloudRight {
-  0% { transform: translateX(10px); opacity: 0; }
-  10% { opacity: 0.55; }
-  90% { opacity: 0.55; }
-  100% { transform: translateX(-340px); opacity: 0; }
-}
-
-/* Button glow pulse background */
-@keyframes glowPulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.03, 1.07);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-}
-
-/* Screen neon pulse when timer is complete (silent notify) */
-@keyframes screenAlertPulse {
-  0% {
-    box-shadow: inset 0 0 0 rgba(13, 148, 136, 0), 0 20px 50px var(--glass-shadow), 0 0 40px var(--glass-glow);
-  }
-  50% {
-    box-shadow: inset 0 0 25px rgba(13, 148, 136, 0.45), 0 20px 50px rgba(13, 148, 136, 0.25), 0 0 50px rgba(13, 148, 136, 0.4);
-    border-color: rgba(13, 148, 136, 0.5);
-  }
-  100% {
-    box-shadow: inset 0 0 0 rgba(13, 148, 136, 0), 0 20px 50px var(--glass-shadow), 0 0 40px var(--glass-glow);
-  }
-}
-.silent-timer-alert {
-  animation: screenAlertPulse 2s infinite ease-in-out;
-}
-
-/* 13. CUSTOM SCROLLBARS FOR GLASS PANELS */
-.exercise-cards-grid::-webkit-scrollbar,
-.shop-items-grid::-webkit-scrollbar,
-.cert-modal-card::-webkit-scrollbar,
-.celebration-modal-card::-webkit-scrollbar {
-  width: 4px;
-}
-.exercise-cards-grid::-webkit-scrollbar-track,
-.shop-items-grid::-webkit-scrollbar-track,
-.cert-modal-card::-webkit-scrollbar-track,
-.celebration-modal-card::-webkit-scrollbar-track {
-  background: transparent;
-}
-.exercise-cards-grid::-webkit-scrollbar-thumb,
-.shop-items-grid::-webkit-scrollbar-thumb,
-.cert-modal-card::-webkit-scrollbar-thumb,
-.celebration-modal-card::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-}
-.exercise-cards-grid::-webkit-scrollbar-thumb:hover,
-.shop-items-grid::-webkit-scrollbar-thumb:hover,
-.cert-modal-card::-webkit-scrollbar-thumb:hover,
-.celebration-modal-card::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* 14. WIDGET MODE COLLAPSING OVERRIDES */
-#app-wrapper.widget-layout .mountain-display-container {
-  height: 180px;
-}
-#app-wrapper.widget-layout .avatar-stats-box,
-#app-wrapper.widget-layout .avatar-actions,
-#app-wrapper.widget-layout .logo-text {
-  display: none;
-}
-
-/* 15. DYNAMIC SKY TIME GRADIENTS */
-.mountain-display.sky-morning {
-  background: linear-gradient(to bottom, #fdba74 0%, #3b82f6 60%, #1e1b4b 100%) !important;
-}
-.mountain-display.sky-day {
-  background: linear-gradient(to bottom, #0ea5e9 0%, #3b82f6 75%, #1e1b4b 100%) !important;
-}
-.mountain-display.sky-sunset {
-  background: linear-gradient(to bottom, #f43f5e 0%, #701a75 60%, #1e1b4b 100%) !important;
-}
-.mountain-display.sky-night {
-  background: linear-gradient(to bottom, #020617 0%, #0f172a 75%, #1e1b4b 100%) !important;
-}
-.sky-night .sky-stars {
-  animation: starTwinkle 4s infinite ease-in-out;
-}
-@keyframes starTwinkle {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 0.85; }
-}
-
-/* 16. SUMMIT CERTIFICATES AND MODAL STYLES */
-.certificates-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-top: 8px;
-  max-height: 160px;
-  overflow-y: auto;
-  padding-right: 2px;
-}
-
-.cert-item-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: var(--transition-smooth);
-  cursor: pointer;
-}
-.cert-item-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(45, 212, 191, 0.35);
-}
-
-.cert-item-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.cert-item-info h5 {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #fff;
-}
-.cert-item-info span {
-  font-size: 0.6rem;
-  color: hsl(var(--color-text-secondary));
-}
-.cert-item-badge {
-  font-size: 1.15rem;
-  filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.4));
-}
-
-.cert-modal-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(10, 11, 16, 0.85);
-  backdrop-filter: blur(8px);
-  z-index: 10000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-.cert-modal-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.cert-modal-card {
-  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-  border: 2px solid rgba(245, 158, 11, 0.35);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 158, 11, 0.15);
-  border-radius: 20px;
-  width: 90%;
-  max-width: 540px;
-  max-height: 92vh;
-  overflow-y: auto;
-  padding: 24px;
-  position: relative;
-  transform: scale(0.9);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  scrollbar-width: thin;
-}
-.cert-modal-overlay.active .cert-modal-card {
-  transform: scale(1);
-}
-
-.cert-close-btn {
-  position: absolute;
-  top: 12px; right: 14px;
-  background: transparent;
-  border: none;
-  color: hsl(var(--color-text-secondary));
-  font-size: 1.8rem;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-  line-height: 1;
-  z-index: 100;
-}
-.cert-close-btn:hover {
-  color: #fff;
-  transform: scale(1.1);
-}
-
-.cert-frame {
-  border: 3.5px double rgba(245, 158, 11, 0.4);
-  border-radius: 12px;
-  padding: 24px 16px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(15, 23, 42, 0.45);
-}
-
-.cert-header {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 900;
-  letter-spacing: 4px;
-  color: transparent;
-  background: linear-gradient(135deg, #ffe082 0%, #f59e0b 60%, #ffe082 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-}
-
-.cert-medal-seal {
-  font-size: 3.2rem;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
-  animation: sealBounce 3s infinite ease-in-out;
-}
-
-@keyframes sealBounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-
-.cert-body {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.cert-recipient-line {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #fff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 4px;
-  display: inline-block;
-  margin: 0 auto;
-  min-width: 140px;
-}
-
-.cert-main-text {
-  font-size: 0.8rem;
-  color: #e2e8f0;
-  line-height: 1.8;
-  font-weight: 400;
-}
-
-.cert-highlight {
-  color: #2dd4bf;
-  font-size: 0.95rem;
-  font-weight: 800;
-  display: inline-block;
-  margin: 6px 0;
-}
-
-.cert-body-praise {
-  font-size: 0.72rem;
-  color: hsl(var(--color-text-secondary));
-  line-height: 1.5;
-}
-
-.cert-footer {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 12px;
-  font-size: 0.7rem;
-  color: hsl(var(--color-text-secondary));
-}
-
-.cert-date-box {
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-
-.cert-signer {
-  font-weight: 700;
-  color: #cbd5e1;
-}
-
-/* 17. MOBILE RESPONSIVE MEDIA QUERIES (スマホ表示最適化) */
-@media (max-width: 768px) {
-  body.cyber-dark {
-    padding: 8px; /* Reduce outer padding */
-  }
-  
-  #app-wrapper {
-    max-width: 100%;
-    border-radius: 16px;
-  }
-  
-  .app-header {
-    padding: 10px 14px !important;
-  }
-  
-  /* Collapses grid into a vertical single column layout */
-  .app-body {
-    grid-template-columns: 1fr !important;
-    padding: 12px !important;
-    gap: 16px !important;
-  }
-
-  .glass-panel {
-    padding: 12px !important;
-  }
-  
-  /* Panel tab selector becomes horizontally scrollable if needed */
-  .panel-tabs {
-    overflow-x: auto;
-    white-space: nowrap;
-    justify-content: flex-start;
-    display: flex;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .tab-btn {
-    padding: 8px 10px !important;
-    font-size: 0.78rem !important;
-    flex-shrink: 0;
-    flex-grow: 0;
-  }
-  
-  /* Compact mountain indicator */
-  .mountain-display-container {
-    grid-template-columns: 28px 1fr !important;
-    gap: 8px !important;
-    height: 190px !important;
-  }
-  
-  .mountain-balloon {
-    font-size: 0.7rem !important;
-    padding: 6px 10px !important;
-  }
-  
-  /* Records summary layout grid */
-  .records-summary-grid {
-    grid-template-columns: 1fr !important;
-    gap: 8px !important;
-  }
-  
-  .summary-card {
-    flex-direction: row !important;
-    justify-content: space-between;
-    padding: 8px 16px !important;
-  }
-  
-  .summary-card .num {
-    font-size: 1.15rem !important;
-  }
-  
-  /* Cert grid becomes vertical stack or compact cards */
-  .certificates-grid {
-    grid-template-columns: 1fr !important;
-    gap: 6px !important;
-  }
-  
-  .cert-modal-card {
-    width: 95% !important;
-    padding: 16px !important;
-  }
-  
-  .cert-frame {
-    padding: 16px 10px !important;
-  }
-  
-  .cert-header {
-    font-size: 1.25rem !important;
-  }
-  
-  .cert-medal-seal {
-    font-size: 2.5rem !important;
-    margin-bottom: 6px !important;
-  }
-  
-  .cert-main-text {
-    font-size: 0.72rem !important;
-    line-height: 1.6 !important;
-  }
-  
-  .cert-body-praise {
-    font-size: 0.65rem !important;
-  }
-
-  .avatar-stats-box {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    padding: 8px 12px !important;
-    margin-top: 10px !important;
-  }
-  .avatar-stats-box .stat-line {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 2px !important;
-    margin-bottom: 0 !important;
-  }
-  .avatar-stats-box .stat-line .val,
-  .avatar-stats-box .stat-line .val-wide {
-    font-size: 0.65rem !important;
-    text-align: left !important;
-    margin-left: 0 !important;
-  }
-  .avatar-stats-box .stat-line .lbl {
-    font-size: 0.65rem !important;
-  }
-  .avatar-actions {
-    margin-top: 8px !important;
-    display: flex !important;
-    justify-content: center !important;
-  }
-  .avatar-actions button {
-    padding: 6px 12px !important;
-    font-size: 0.72rem !important;
-    width: 100% !important;
-    max-width: 200px !important;
-  }
-}
-
-/* 18. ULTRA-COMPACT SMARTPHONE BADGES FIX (幅480px以下の型崩れ対策) */
-@media (max-width: 480px) {
-  .logo-text, .layout-toggle-btn {
-    display: none !important; /* Hide brand name text and toggle button to free massive space! */
-  }
-  
-  .logo-area {
-    gap: 0px !important;
-  }
-  
-  .header-badges {
-    gap: 4px !important;
-    flex-grow: 1;
-    justify-content: flex-end;
-    flex-wrap: nowrap !important; /* Prevent badges from wrapping */
-  }
-  
-  .stat-badge {
-    padding: 4px 6px !important;
-    font-size: 0.68rem !important;
-    gap: 3px !important;
-    white-space: nowrap !important;
-    min-width: unset !important;
-    border-radius: 8px !important;
-    flex-shrink: 0 !important; /* Prevent badge itself from shrinking */
-  }
-  
-  .stat-badge .badge-text {
-    white-space: nowrap !important;
-  }
-
-  .streak-badge svg {
-    width: 12px !important;
-    height: 12px !important;
-  }
-
-  .coin-symbol {
-    width: 10px !important;
-    height: 10px !important;
-  }
-
-  .ex-info h4 {
-    font-size: 0.8rem !important;
-  }
-  .ex-info p {
-    font-size: 0.65rem !important;
-  }
-  .ex-rewards {
-    font-size: 0.65rem !important;
-  }
-  .ex-start-btn {
-    padding: 6px 8px !important;
-    font-size: 0.65rem !important;
-  }
-  .exercise-card-item {
-    padding: 8px 12px !important;
-    gap: 8px !important;
-  }
-}
-
-/* ==========================================
-   21. SUMMIT CELEBRATION MODAL STYLING
-   ========================================== */
-.celebration-modal-card {
-  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-  border: 2px solid #fbbf24;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(245, 158, 11, 0.25);
-  border-radius: 24px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 92vh;
-  overflow-y: auto;
-  padding: 24px;
-  position: relative;
-  transform: scale(0.9);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  scrollbar-width: thin;
-}
-
-.cert-modal-overlay.active .celebration-modal-card {
-  transform: scale(1);
-}
-
-.celebration-frame {
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 16px;
-  padding: 20px 16px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(15, 23, 42, 0.35);
-  backdrop-filter: blur(5px);
-}
-
-.celebration-badge {
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  color: #fbbf24;
-  background: rgba(245, 158, 11, 0.1);
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  margin-bottom: 12px;
-  animation: pulseGold 2s infinite ease-in-out;
-}
-
-@keyframes pulseGold {
-  0%, 100% { box-shadow: 0 0 4px rgba(245, 158, 11, 0.1); }
-  50% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.3); border-color: rgba(245, 158, 11, 0.5); }
-}
-
-.celebration-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  background: linear-gradient(135deg, #fff 0%, #fbbf24 50%, #d97706 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 16px;
-  filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.2));
-}
-
-.celebration-mountain-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 12px 24px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 320px;
-  margin-bottom: 18px;
-}
-
-.celebration-mountain-name {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-}
-
-.celebration-mountain-height {
-  font-size: 0.95rem;
-  font-weight: 700;
-  font-family: 'Outfit', sans-serif;
-  color: #2dd4bf;
-}
-
-.celebration-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  text-align: left;
-}
-
-.celebration-message {
-  font-size: 0.78rem;
-  color: #e2e8f0;
-  line-height: 1.6;
-  text-align: center;
-}
-
-.celebration-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  width: 100%;
-}
-
-.celebration-trivia {
-  background: rgba(13, 148, 136, 0.04);
-  border: 1px solid rgba(13, 148, 136, 0.12);
-  border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: inset 0 0 10px rgba(13, 148, 136, 0.02);
-}
-
-.celebration-trivia h4 {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #2dd4bf;
   margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.progress-label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.progress-value {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.progress-bar-container {
+  height: 8px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
+}
+
+/* Fitness Controls (Cards) */
+.control-section {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.celebration-trivia p {
-  font-size: 0.72rem;
-  color: #94a3b8;
-  line-height: 1.5;
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-md);
 }
 
-@media (max-width: 480px) {
-  .celebration-modal-card {
-    width: 95% !important;
-    padding: 16px !important;
-  }
-  .celebration-frame {
-    padding: 14px 10px !important;
-  }
-  .celebration-title {
-    font-size: 1.25rem !important;
-  }
-  .celebration-mountain-name {
-    font-size: 1.15rem !important;
-  }
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-main);
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
 }
 
-
-/* 1) カイラス山 (聖峰ピラミッド型) */
-.mt-kailash {
-  --summit-x: 50%;
-  --summit-y: 85px;
-}
-.mt-kailash .layer-front {
-  clip-path: polygon(0% 90%, 20% 70%, 50% 25%, 80% 70%, 100% 90%, 100% 100%, 0% 100%) !important;
-  height: 90px !important;
-}
-.mt-kailash .layer-mid {
-  clip-path: polygon(0% 80%, 28% 50%, 50% 35%, 72% 50%, 100% 80%, 100% 100%, 0% 100%) !important;
-  height: 110px !important;
-}
-.mt-kailash .layer-back {
-  clip-path: polygon(0% 70%, 15% 55%, 50% 15%, 85% 55%, 100% 70%, 100% 100%, 0% 100%) !important;
-  height: 135px !important;
+/* Stopwatch */
+.stopwatch-display {
+  font-size: 38px;
+  font-weight: 800;
+  text-align: center;
+  font-family: monospace;
+  color: var(--primary);
+  margin: 10px 0 15px 0;
+  letter-spacing: 1px;
 }
 
-/* 2) カワカブ/梅里雪山 (神秘的な鋭利連峰) */
-.mt-kawagarbo {
-  --summit-x: 45%;
-  --summit-y: 80px;
-}
-.mt-kawagarbo .layer-front {
-  clip-path: polygon(0% 85%, 15% 60%, 30% 68%, 45% 30%, 65% 55%, 80% 48%, 100% 85%, 100% 100%, 0% 100%) !important;
-  height: 85px !important;
-}
-.mt-kawagarbo .layer-mid {
-  clip-path: polygon(0% 75%, 25% 45%, 52% 35%, 75% 50%, 100% 75%, 100% 100%, 0% 100%) !important;
-  height: 105px !important;
-}
-.mt-kawagarbo .layer-back {
-  clip-path: polygon(0% 65%, 20% 25%, 40% 45%, 60% 20%, 80% 45%, 100% 65%, 100% 100%, 0% 100%) !important;
-  height: 130px !important;
-}
-
-/* 3) マチャプチャレ (シヴァ神の双耳峰・魚の尾) */
-.mt-machapuchare {
-  --summit-x: 58%; /* 右側の高い方のピーク */
-  --summit-y: 80px;
-}
-.mt-machapuchare .layer-front {
-  /* 42% と 58% の位置に美しいダブルピークを描く！ */
-  clip-path: polygon(0% 85%, 20% 65%, 42% 32%, 50% 45%, 58% 30%, 80% 65%, 100% 85%, 100% 100%, 0% 100%) !important;
-  height: 85px !important;
-}
-.mt-machapuchare .layer-mid {
-  clip-path: polygon(0% 75%, 30% 50%, 50% 38%, 70% 50%, 100% 75%, 100% 100%, 0% 100%) !important;
-  height: 105px !important;
-}
-.mt-machapuchare .layer-back {
-  clip-path: polygon(0% 65%, 25% 35%, 45% 25%, 55% 25%, 75% 35%, 100% 65%, 100% 100%, 0% 100%) !important;
-  height: 130px !important;
-}
-
-/* 4) ナンガ・パルバット (荒々しいルパール絶壁) */
-.mt-nangaparbat {
-  --summit-x: 32%; /* 左側の鋭いルパール絶壁のピーク */
-  --summit-y: 88px;
-}
-.mt-nangaparbat .layer-front {
-  clip-path: polygon(0% 90%, 32% 20%, 38% 55%, 55% 45%, 75% 65%, 100% 90%, 100% 100%, 0% 100%) !important;
-  height: 90px !important;
-}
-.mt-nangaparbat .layer-mid {
-  clip-path: polygon(0% 80%, 25% 45%, 48% 35%, 70% 55%, 100% 80%, 100% 100%, 0% 100%) !important;
-  height: 110px !important;
-}
-.mt-nangaparbat .layer-back {
-  clip-path: polygon(0% 70%, 20% 30%, 50% 20%, 80% 50%, 100% 70%, 100% 100%, 0% 100%) !important;
-  height: 135px !important;
-}
-
-/* 5) カンチェンジュンガ (5つの雪の宝庫・波状巨大峰) */
-.mt-kangchenjunga {
-  --summit-x: 50%;
-  --summit-y: 82px;
-}
-.mt-kangchenjunga .layer-front {
-  clip-path: polygon(0% 85%, 15% 55%, 30% 45%, 50% 32%, 70% 42%, 85% 52%, 100% 85%, 100% 100%, 0% 100%) !important;
-  height: 85px !important;
-}
-.mt-kangchenjunga .layer-mid {
-  clip-path: polygon(0% 75%, 20% 48%, 40% 38%, 60% 38%, 80% 48%, 100% 75%, 100% 100%, 0% 100%) !important;
-  height: 105px !important;
-}
-.mt-kangchenjunga .layer-back {
-  clip-path: polygon(0% 65%, 10% 40%, 25% 25%, 45% 28%, 55% 20%, 75% 25%, 90% 40%, 100% 65%, 100% 100%, 0% 100%) !important;
-  height: 130px !important;
-}
-
-/* 6) エベレスト (天を衝くピラミッド・地球最高峰) */
-.mt-everest {
-  --summit-x: 60%;
-  --summit-y: 98px;
-}
-.mt-everest .layer-front {
-  clip-path: polygon(0% 85%, 25% 60%, 60% 15%, 75% 45%, 90% 40%, 100% 85%, 100% 100%, 0% 100%) !important;
-  height: 85px !important;
-}
-.mt-everest .layer-mid {
-  clip-path: polygon(0% 75%, 35% 45%, 55% 25%, 80% 55%, 100% 75%, 100% 100%, 0% 100%) !important;
-  height: 105px !important;
-}
-.mt-everest .layer-back {
-  clip-path: polygon(0% 65%, 20% 35%, 45% 20%, 65% 10%, 85% 40%, 100% 65%, 100% 100%, 0% 100%) !important;
-  height: 130px !important;
-}
-
-/* ==========================================
-   20. STATIC 'DONE' (やった！) BUTTON PREMIUM STYLING
-   ========================================== */
-.ex-actions-row {
+.stopwatch-controls {
   display: flex;
   gap: 8px;
+}
+
+.stopwatch-controls .btn {
+  flex: 1;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: var(--secondary);
+  border: 1px solid var(--border-color);
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: #e2e8f0;
+}
+
+.btn-accent {
+  background-color: #e0f2fe;
+  color: var(--primary);
+  border: 1px solid var(--border-light);
+}
+.btn-accent:hover:not(:disabled) {
+  background-color: #bae6fd;
+}
+
+.btn-submit {
   width: 100%;
+  background: linear-gradient(135deg, var(--accent), #059669);
+  color: white;
+  font-size: 15px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
   margin-top: 10px;
 }
-
-.ex-start-btn {
-  flex: 1 !important;
-  margin: 0 !important;
+.btn-submit:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
 }
 
-.ex-direct-btn {
-  background: rgba(45, 212, 191, 0.08) !important;
-  border: 1px solid rgba(45, 212, 191, 0.25) !important;
-  color: #2dd4bf !important;
-  padding: 8px 12px !important;
-  border-radius: 8px !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  transition: var(--transition-smooth) !important;
-  white-space: nowrap !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+.btn-full {
+  width: 100%;
 }
 
-.ex-direct-btn:hover {
-  background: rgba(45, 212, 191, 0.22) !important;
-  border-color: #2dd4bf !important;
-  box-shadow: 0 0 10px rgba(45, 212, 191, 0.3) !important;
-  transform: scale(1.02) !important;
+/* Forms */
+.form-group {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.ex-direct-btn:active {
-  transform: scale(0.98) !important;
+.form-row {
+  display: flex;
+  gap: 12px;
 }
 
-/* Mobile optimizations for buttons layout */
-@media (max-width: 480px) {
-  .ex-actions-row {
-    flex-direction: row !important; /* Keep horizontal even on tiny screens but with tight gap */
-    gap: 4px !important;
-  }
-  .ex-direct-btn {
-    padding: 6px 8px !important;
-    font-size: 0.68rem !important;
-  }
+.form-group-half {
+  flex: 1;
 }
 
+.form-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.form-control {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: #f8fafc;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.unit-badge {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: #f1f5f9;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  color: var(--secondary);
+  font-size: 14px;
+  height: 41px;
+}
+
+/* Estimated Elevation Display */
+.estimated-elevation-display {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-hover);
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#estimated-elevation-val {
+  font-size: 16px;
+  color: var(--accent-hover);
+}
+
+/* Settings Accordion */
+.settings-accordion {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.accordion-trigger {
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-trigger:hover {
+  background-color: #f8fafc;
+}
+
+.accordion-trigger .arrow {
+  font-size: 10px;
+  transition: transform 0.3s ease;
+}
+
+.settings-accordion.open .accordion-trigger .arrow {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  padding: 0 16px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.settings-accordion.open .accordion-content {
+  padding: 12px 16px;
+  max-height: 200px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.help-text {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: auto;
+  border-top: 1px solid var(--border-light);
+  background-color: var(--bg-card);
+}
+
+/* Toast styling for notifications */
+.toast-msg {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: rgba(30, 41, 59, 0.95);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+}
+
+.toast-msg.show {
+  transform: translateX(-50%) translateY(0);
+}

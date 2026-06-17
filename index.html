@@ -2,629 +2,178 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Mobile App PWA Capabilities (フルスクリーン起動設定) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Mobile App PWA Capabilities -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>DeskSummit - デスクワーク登山 & 腹筋シェイパー</title>
-  <!-- Modern clean typography -->
+  <title>DeskSummit - ライト登山フィットネス</title>
+  <!-- Modern Clean Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="cyber-dark">
-  <!-- Interactive canvas for silent reward particles -->
+<body class="light-theme">
+  <!-- Canvas for reward animations -->
   <canvas id="particle-canvas"></canvas>
 
-  <!-- Main Container -->
-  <div id="app-wrapper" class="dashboard-layout">
+  <!-- Main Container (constrained to mobile width) -->
+  <div id="app-wrapper">
     
-    <!-- HEADER BAR -->
+    <!-- HEADER -->
     <header class="app-header">
       <div class="logo-area">
-        <div class="logo-icon"></div>
+        <span class="logo-emoji">🏔️</span>
         <div class="logo-text">
           <h1>DeskSummit</h1>
-          <span class="subtext">デスクワーク登山 & 腹筋シェイパー</span>
+          <span class="subtext">記録で登るフィットネス</span>
         </div>
       </div>
-      
-      <!-- Stats Badges -->
       <div class="header-badges">
-        <!-- Streak -->
-        <div class="stat-badge streak-badge" title="連続継続日数">
-          <svg class="icon" viewBox="0 0 24 24">
-            <!-- Flame SVG -->
-            <path fill="currentColor" d="M12 2S8.33 6.96 8.33 9.77a3.67 3.67 0 0 0 7.34 0C15.67 6.96 12 2 12 2zm0 14.5a3.17 3.17 0 0 1-3.17-3.17c0-1.28 1.1-3.33 3.17-5.5 2.07 2.17 3.17 4.22 3.17 5.5A3.17 3.17 0 0 1 12 16.5z"/>
-          </svg>
-          <span class="badge-text"><span id="header-streak-count">0</span>日連続</span>
+        <div class="stat-badge streak-badge" id="streak-badge" title="連続継続日数">
+          <span class="badge-icon">🔥</span>
+          <span class="badge-text"><span id="streak-count">0</span>日連続</span>
         </div>
-
-        <!-- Level (Mountaineer Rank) -->
-        <div class="stat-badge level-badge" title="登山家ランク">
-          <span class="badge-text"><span class="badge-label">Rank</span> <span id="header-level-val">1</span></span>
-        </div>
-
-        <!-- Coins (ClimbPoints) -->
-        <div class="stat-badge coins-badge" title="所持クライムポイント">
-          <div class="coin-symbol" style="background: radial-gradient(circle, #5eead4 20%, #0d9488 100%); box-shadow: 0 0 6px #0d9488, 0 1px 1px rgba(0,0,0,0.4);"></div>
-          <span class="badge-text"><span id="header-coins-val">0</span>pts</span>
-        </div>
-
-        <!-- Layout Toggle (Widget <-> Dashboard) -->
-        <button id="toggle-widget-btn" class="layout-toggle-btn" title="ウィジェットモードに切替">
-          <!-- Widget Icon -->
-          <svg class="btn-icon icon-widget" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
-            <rect x="12" y="12" width="7" height="7" rx="1" fill="currentColor"/>
-          </svg>
-          <!-- Dashboard Icon (hidden by default) -->
-          <svg class="btn-icon icon-dashboard" viewBox="0 0 24 24" style="display:none;">
-            <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
-            <line x1="9" y1="3" x2="9" y2="21" stroke="currentColor" stroke-width="2"/>
-            <line x1="3" y1="9" x2="9" y2="9" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          <span class="btn-text">ウィジェット</span>
-        </button>
       </div>
     </header>
 
-    <!-- MAIN INTERFACE -->
-    <main class="app-body">
-      
-      <!-- LEFT COLUMN: MOUNTAIN PROGRESS VIEW -->
-      <section class="avatar-card glass-panel">
-        <div class="card-header-climb">
-          <label for="mountain-select" class="dropdown-label">挑戦中の名峰</label>
+    <!-- CALENDAR WIDGET -->
+    <section class="widget-section">
+      <h2 class="section-title">今月のロードマップ</h2>
+      <div class="calendar-scroll-container">
+        <div id="calendar-widget" class="calendar-widget">
+          <!-- JS will populate daily cards here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- MOUNTAIN PROGRESS VIEW -->
+    <section class="mountain-section">
+      <div class="mountain-header">
+        <div class="mountain-selector-wrapper">
+          <label for="mountain-select" class="selector-label">挑戦中の山:</label>
           <select id="mountain-select" class="mountain-dropdown">
-            <option value="kailash">① カイラス山 (6,638m)</option>
-            <option value="kawagarbo">② カワカブ/梅里雪山 (6,740m)</option>
-            <option value="machapuchare">③ マチャプチャレ (6,993m)</option>
-            <option value="nangaparbat">④ ナンガ・パルバット (8,126m)</option>
-            <option value="kangchenjunga">⑤ カンチェンジュンガ (8,586m)</option>
-            <option value="everest">⑥ エベレスト (8,848m)</option>
+            <option value="fuji" data-height="3776">富士山 (3,776m)</option>
+            <option value="kailash" data-height="6638">カイラス山 (6,638m)</option>
+            <option value="everest" data-height="8848">エベレスト (8,848m)</option>
           </select>
         </div>
+      </div>
 
-        <!-- Interactive Mountain Display Area -->
-        <div class="mountain-display-container">
-          
-          <!-- Vertical Climb Progress Bar -->
-          <div class="climb-progress-bar-vertical">
-            <div class="climb-progress-track">
-              <!-- Filled height indicator -->
-              <div class="climb-progress-fill-vertical" id="climb-height-fill" style="height: 0%;"></div>
-            </div>
-            
-            <!-- Checkpoint camp markers -->
-            <div class="camp-marker marker-summit" title="山頂 (Summit)">🏔️</div>
-            <div class="camp-marker marker-c3" style="bottom: 75%;" title="キャンプ3">⛺</div>
-            <div class="camp-marker marker-c2" style="bottom: 50%;" title="キャンプ2">⛺</div>
-            <div class="camp-marker marker-c1" style="bottom: 25%;" title="キャンプ1">⛺</div>
-            <div class="camp-marker marker-bc" title="ベースキャンプ (BC)">🏕️</div>
-            
-            <!-- Hiker Hitting Pin -->
-            <div class="hiker-pin" id="hiker-pin" style="bottom: 0%;">
-              <span class="hiker-emoji">🧗</span>
-            </div>
-          </div>
-
-          <!-- Mountain Peak Pure CSS Silhouette Area -->
-          <div class="mountain-display" id="mountain-interactive-zone">
-            <!-- Sky stars/sun elements -->
-            <div class="mountain-sky">
-              <div class="sky-sun-glow"></div>
-              <div class="sky-stars"></div>
-            </div>
-
-            <!-- Clouds floating -->
-            <div class="floating-cloud cloud1"></div>
-            <div class="floating-cloud cloud2"></div>
-
-            <!-- Mountain Layers (drawn in CSS) -->
-            <div class="mountain-layer layer-back"></div>
-            <div class="mountain-layer layer-mid"></div>
-            <div class="mountain-layer layer-front">
-              <!-- Summit glowing flag -->
-              <div class="summit-flag" id="summit-flag">🚩</div>
-            </div>
-
-            <!-- Hiker accessories visuals (Gear equipped from shop) -->
-            <div class="gear-overlay" id="gear-backpack-visual" title="超軽量アルパインパック">🎒</div>
-            <div class="gear-overlay" id="gear-iceaxe-visual" title="アイスアックス">⛏️</div>
-            <div class="gear-overlay" id="gear-oxygen-visual" title="酸素マスク">🤿</div>
-
-            <!-- Copped interactive guide tent message balloon -->
-            <div class="mountain-balloon" id="avatar-balloon">登山を開始しましょう！一歩ずつが山頂へ繋がっています。</div>
-          </div>
+      <!-- Mountain Visualizer Area -->
+      <div class="mountain-display-container">
+        <!-- Sky backgound -->
+        <div class="mountain-sky">
+          <div class="sky-sun"></div>
+          <div class="floating-cloud cloud1"></div>
+          <div class="floating-cloud cloud2"></div>
         </div>
 
-        <!-- Mountain & Hiker Stats -->
-        <div class="avatar-stats-box">
-          <div class="stat-line">
-            <span class="lbl">現在の標高</span>
-            <div class="stat-progress-bar" style="background: rgba(255,255,255,0.03);">
-              <div class="progress-fill exp-fill" id="height-horizontal-fill" style="width: 0%; background: linear-gradient(90deg, #14b8a6, #0d9488);"></div>
-            </div>
-            <span class="val-wide" id="elevation-ratio-text"><span id="current-elevation-val">0</span>m / <span id="target-elevation-val">6,638</span>m</span>
-          </div>
-
-          <div class="stat-line">
-            <span class="lbl">腹筋割れ度</span>
-            <div class="stat-progress-bar">
-              <div class="progress-fill fat-fill" id="fat-progress-fill" style="width: 10%;"></div>
-            </div>
-            <span class="val" id="fat-percentage-val">10.0%</span>
-          </div>
-
-          <div class="stat-line">
-            <span class="lbl">体幹の強さ</span>
-            <div class="stat-progress-bar">
-              <div class="progress-fill core-fill" id="core-progress-fill" style="width: 10%;"></div>
-            </div>
-            <span class="val" id="core-power-val">Lv 1</span>
-          </div>
-          
-          <div class="stat-line">
-            <span class="lbl">登山家経験値</span>
-            <div class="stat-progress-bar">
-              <div class="progress-fill exp-fill" id="exp-progress-fill" style="width: 0%;"></div>
-            </div>
-            <span class="val" id="exp-val">0 / 100</span>
-          </div>
+        <!-- Mountain Silhouette Layers -->
+        <div class="mountain-layer layer-back"></div>
+        <div class="mountain-layer layer-mid"></div>
+        <div class="mountain-layer layer-front">
+          <div class="summit-flag" id="summit-flag">🚩</div>
         </div>
 
-        <!-- Quick Interaction -->
-        <div class="avatar-actions">
-          <button id="poke-avatar-btn" class="secondary-btn">ガイドにアドバイスを聞く</button>
-        </div>
-      </section>
-
-      <!-- RIGHT COLUMN: DYNAMIC PANEL CONTAINER -->
-      <section class="panel-container">
-        
-        <!-- Tab Navigation (Only in Dashboard Mode) -->
-        <nav class="panel-tabs">
-          <button class="tab-btn active" data-target="timer-tab">タイマー</button>
-          <button class="tab-btn" data-target="exercise-tab">腹筋トレーニング</button>
-          <button class="tab-btn" data-target="shop-tab">ショップ</button>
-          <button class="tab-btn" data-target="records-tab">登頂の軌跡</button>
-        </nav>
-
-        <!-- TAB CONTENT: TIMER -->
-        <div class="tab-content active" id="timer-tab">
-          <div class="timer-section glass-panel">
-            
-            <div class="timer-display-container">
-              <!-- Beautiful circular timer dial -->
-              <div class="circular-timer">
-                <svg class="progress-ring" width="220" height="220">
-                  <circle class="ring-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="95" cx="110" cy="110"/>
-                  <circle class="ring-bar" id="timer-ring-bar" stroke="url(#timer-gradient)" stroke-width="8" stroke-dasharray="596.9" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" r="95" cx="110" cy="110"/>
-                  <defs>
-                    <linearGradient id="timer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#0d9488" />
-                      <stop offset="100%" stop-color="#3b82f6" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                
-                <div class="timer-text-content">
-                  <div class="timer-status-title" id="timer-mode-title">デスクワーク集中</div>
-                  <div class="timer-countdown" id="timer-countdown">30:00</div>
-                  <div class="timer-hint">次に登るまで</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Timer Controls -->
-            <div class="timer-controls">
-              <button id="timer-start-stop-btn" class="primary-btn pulse-glow" style="background: linear-gradient(135deg, #0f766e, #2563eb); box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);">集中タイマースタート</button>
-              
-              <!-- Quick Skip to Exercise -->
-              <button id="instant-break-btn" class="action-btn warning-gradient" style="background: linear-gradient(135deg, #0d9488, #0ea5e9);">今すぐ登頂に挑む！</button>
-            </div>
-
-            <!-- Timer Settings Presets -->
-            <div class="preset-selector">
-              <span class="preset-label">リマインダー間隔:</span>
-              <div class="preset-buttons">
-                <button class="preset-btn active" data-time="30">30分</button>
-                <button class="preset-btn" data-time="45">45分</button>
-                <button class="preset-btn" data-time="60">60分</button>
-                <button class="preset-btn" data-time="1">テスト(1分)</button>
-              </div>
-            </div>
-
-            <!-- Work advice quote -->
-            <div class="advice-card">
-              <div class="advice-icon">🏔️</div>
-              <p class="advice-text" id="advice-quote">山はどれだけサボっても、あなたを辛抱強く待っています。無理せず、自分のペースでお腹を引き締めていきましょう！</p>
-            </div>
-
-          </div>
+        <!-- Climber / Hiker Pin -->
+        <div class="hiker-pin" id="hiker-pin">
+          <span class="hiker-emoji">🧗</span>
+          <span class="hiker-label">あなた</span>
         </div>
 
-        <!-- TAB CONTENT: EXERCISE SELECTOR -->
-        <div class="tab-content" id="exercise-tab">
-          <div class="exercise-list-panel glass-panel">
-            <h3 class="panel-section-title">座ったままできる高度腹筋アプローチ</h3>
-            
-            <div class="exercise-cards-grid">
-              
-              <!-- Exercise Item 3 -->
-              <div class="exercise-card-item" data-ex-id="twist">
-                <div class="ex-info">
-                  <span class="ex-difficulty normal">★★☆ (中級)</span>
-                  <h4>体幹ツイスト (Seated Trunk Twist)</h4>
-                  <p>背筋を伸ばし、軸を意識してお腹を左右に深く捻ります。</p>
-                </div>
-                <div class="ex-rewards">
-                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+350m</span>
-                  <span class="reward-exp">EXP +20</span>
-                </div>
-                <div class="ex-actions-row">
-                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #0d9488, #2563eb);">スタート (40秒)</button>
-                  <button class="ex-direct-btn">やった！</button>
-                </div>
-              </div>
-
-              <!-- Exercise Item: Plank (NEW) -->
-              <div class="exercise-card-item" data-ex-id="plank">
-                <div class="ex-info">
-                  <span class="ex-difficulty hard" style="color: #3b82f6;">★★★ (上級・自宅🏠)</span>
-                  <h4>フロント・プランク (Plank)</h4>
-                  <p>【高負荷】肘とつま先で体を支え、一直線にキープ！全身を強力に引き締めます！</p>
-                </div>
-                <div class="ex-rewards">
-                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+600m</span>
-                  <span class="reward-exp">EXP +30</span>
-                </div>
-                <div class="ex-actions-row">
-                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">スタート (60秒)</button>
-                  <button class="ex-direct-btn">やった！</button>
-                </div>
-              </div>
-
-              <!-- Exercise Item: Wide Squat (NEW) -->
-              <div class="exercise-card-item" data-ex-id="widesquat">
-                <div class="ex-info">
-                  <span class="ex-difficulty normal" style="color: #60a5fa;">★★☆ (中級・美脚🏠)</span>
-                  <h4>ワイド・スクワット (Wide Squats)</h4>
-                  <p>足を肩幅より広く開き、つま先を外側に向けて腰を落とします。内もも（内転筋）をキュッと引き締め！</p>
-                </div>
-                <div class="ex-rewards">
-                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+400m</span>
-                  <span class="reward-exp">EXP +20</span>
-                </div>
-                <div class="ex-actions-row">
-                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #60a5fa, #2563eb);">スタート (40秒)</button>
-                  <button class="ex-direct-btn">やった！</button>
-                </div>
-              </div>
-
-              <!-- Exercise Item 9 (Home / Squat) -->
-              <div class="exercise-card-item" data-ex-id="deepsquat">
-                <div class="ex-info">
-                  <span class="ex-difficulty hard" style="color: #3b82f6;">★★★ (上級・自宅🏠)</span>
-                  <h4>ディープ・スクワット (Deep Squats)</h4>
-                  <p>【高負荷】太ももとお尻を床の平行よりさらに深く落とし、下半身全体を強烈に刺激！</p>
-                </div>
-                <div class="ex-rewards">
-                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+450m</span>
-                  <span class="reward-exp">EXP +25</span>
-                </div>
-                <div class="ex-actions-row">
-                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">スタート (45秒)</button>
-                  <button class="ex-direct-btn">やった！</button>
-                </div>
-              </div>
-
-              <!-- Exercise Item 10 (Home / Calf) -->
-              <div class="exercise-card-item" data-ex-id="calfraise">
-                <div class="ex-info">
-                  <span class="ex-difficulty easy" style="color: #10b981;">★☆☆ (初級・立位🏠)</span>
-                  <h4>カーフレイズ (Calf Raises)</h4>
-                  <p>かかとを限界まで引き上げてつま先立ちになり、ふくらはぎを引き締めます。</p>
-                </div>
-                <div class="ex-rewards">
-                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+250m</span>
-                  <span class="reward-exp">EXP +15</span>
-                </div>
-                <div class="ex-actions-row">
-                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #10b981, #047857);">スタート (35秒)</button>
-                  <button class="ex-direct-btn">やった！</button>
-                </div>
-              </div>
-
-              <!-- Exercise Item 12 (Home / Split Squat) -->
-              <div class="exercise-card-item" data-ex-id="splitsquat">
-                <div class="ex-info">
-                  <span class="ex-difficulty hard" style="color: #818cf8;">★★★☆ (上級・美脚🏠)</span>
-                  <h4>スプリット・スクワット (Split Squats)</h4>
-                  <p>足を前後に大きく開き、垂直に腰を落とします。お尻と内ももを強烈に引き締め！</p>
-                </div>
-                <div class="ex-rewards">
-                  <span class="reward-coin"><span style="color:#2dd4bf; margin-right:3px;">🏔️</span>+500m</span>
-                  <span class="reward-exp">EXP +28</span>
-                </div>
-                <div class="ex-actions-row">
-                  <button class="ex-start-btn" style="background: linear-gradient(135deg, #3b82f6, #4f46e5);">スタート (45秒)</button>
-                  <button class="ex-direct-btn">やった！</button>
-                </div>
-              </div>
-
-            </div>
-          </div>
+        <!-- Message Balloon -->
+        <div class="mountain-balloon" id="avatar-balloon">
+          一歩一歩、山頂を目指しましょう！
         </div>
+      </div>
 
-        <!-- TAB CONTENT: EXERCISE RUNNING SCREEN -->
-        <div class="tab-content" id="exercise-run-tab">
-          <div class="exercise-run-panel glass-panel">
-            
-            <!-- Exercise Header -->
-            <div class="run-header">
-              <span class="run-tag" style="color: #2dd4bf; background: rgba(13, 148, 136, 0.12);">高度トレーニング中</span>
-              <h3 id="run-exercise-title">ドローイン</h3>
-              <p id="run-exercise-desc">お腹を凹ませ、ゆっくり呼吸を行います</p>
-            </div>
-
-            <!-- Breathing Visualizer -->
-            <div class="breathing-guide-area">
-              <div class="breath-bubble-outer">
-                <div class="breath-bubble" id="breath-guide-circle"></div>
-                <div class="breath-label" id="breath-guide-text">吸って…</div>
-              </div>
-            </div>
-
-            <!-- Timer Area -->
-            <div class="run-countdown-area">
-              <div class="run-timer-digital" id="run-timer-countdown">00:30</div>
-              <div class="run-progress-container">
-                <div class="run-progress-fill" id="run-progress-fill" style="width: 100%;"></div>
-              </div>
-            </div>
-
-            <!-- Action controls -->
-            <div class="run-controls" style="display: flex; gap: 8px; width: 100%;">
-              <button id="run-cancel-btn" class="danger-btn" style="flex: 1;">リタイア</button>
-              <button id="run-complete-btn" class="primary-btn" style="flex: 1; background: linear-gradient(135deg, #0d9488, #14b8a6); box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2); margin: 0; padding: 10px 12px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; color: #fff; text-align: center;">今すぐ完了</button>
-            </div>
-
-          </div>
+      <!-- Progress Stats -->
+      <div class="progress-stats-card">
+        <div class="progress-info">
+          <span class="progress-label">現在の標高</span>
+          <span class="progress-value" id="elevation-ratio-text">
+            <span id="current-elevation-val">0</span>m / <span id="target-elevation-val">3,776</span>m
+          </span>
         </div>
-
-        <!-- TAB CONTENT: SHOP -->
-        <div class="tab-content" id="shop-tab">
-          <div class="shop-panel glass-panel">
-            
-            <div class="shop-header">
-              <h3 class="panel-section-title">山岳クライム・ショップ</h3>
-              <p class="panel-subtitle">本格的なプロ仕様の登山ギアを揃え、さらに高い頂を目指そう！</p>
-            </div>
-
-            <div class="shop-items-grid">
-              
-              <!-- Shop Item 1: Energy Bar -->
-              <div class="shop-card" data-item-id="protein">
-                <div class="shop-item-preview">🍫</div>
-                <div class="shop-item-details">
-                  <h4>高エネルギー携帯食 (エナジーバー)</h4>
-                  <p class="shop-item-desc">食べる（消費する）だけで、瞬時に高度が **+500m** 上昇します！</p>
-                  <div class="shop-item-price">
-                    <span style="color:#2dd4bf; margin-right:3px;">🏔️</span> 50 pts
-                  </div>
-                </div>
-                <button class="buy-btn" data-cost="50" style="background: linear-gradient(135deg, #0d9488, #2dd4bf); color: #000; border: none;">食べる</button>
-              </div>
-
-              <!-- Shop Item 2: Vitamin Supplement -->
-              <div class="shop-card" data-item-id="salad">
-                <div class="shop-item-preview">💊</div>
-                <div class="shop-item-details">
-                  <h4>高度障害防止ビタミンサプリ</h4>
-                  <p class="shop-item-desc">飲むと、**次の腹筋運動で獲得できる標高（m）が2倍**になります！</p>
-                  <div class="shop-item-price">
-                    <span style="color:#2dd4bf; margin-right:3px;">🏔️</span> 40 pts
-                  </div>
-                </div>
-                <button class="buy-btn" data-cost="40" style="background: linear-gradient(135deg, #0d9488, #2dd4bf); color: #000; border: none;">飲む</button>
-              </div>
-
-              <!-- Shop Item 3: Alpine Pack -->
-              <div class="shop-card" data-item-id="headband">
-                <div class="shop-item-preview">🎒</div>
-                <div class="shop-item-details">
-                  <h4>超軽量アルパインバックパック</h4>
-                  <p class="shop-item-desc">高性能ザックを装備。運動時の獲得標高が常時 **+10%** アップ！</p>
-                  <div class="shop-item-price">
-                    <span style="color:#2dd4bf; margin-right:3px;">🏔️</span> 100 pts
-                  </div>
-                </div>
-                <button class="buy-btn" data-cost="100">購入・装備</button>
-              </div>
-
-              <!-- Shop Item 4: Ice Axe -->
-              <div class="shop-card" data-item-id="dumbbells">
-                <div class="shop-item-preview">⛏️</div>
-                <div class="shop-item-details">
-                  <h4>カーボン製軽量アイスアックス</h4>
-                  <p class="shop-item-desc">ピッケルを装備。難所を切り開き、運動時の獲得標高が常時 **+20%** アップ！</p>
-                  <div class="shop-item-price">
-                    <span style="color:#2dd4bf; margin-right:3px;">🏔️</span> 200 pts
-                  </div>
-                </div>
-                <button class="buy-btn" data-cost="200">購入・装備</button>
-              </div>
-
-              <!-- Shop Item 5: Oxygen Mask -->
-              <div class="shop-card" data-item-id="yogamat">
-                <div class="shop-item-preview">🤿</div>
-                <div class="shop-item-details">
-                  <h4>極地順応・酸素ボンベマスク</h4>
-                  <p class="shop-item-desc">酸素マスクを装備。デスゾーンでも呼吸を楽にし、運動の獲得標高が常時 **+30%** アップ！</p>
-                  <div class="shop-item-price">
-                    <span style="color:#2dd4bf; margin-right:3px;">🏔️</span> 300 pts
-                  </div>
-                </div>
-                <button class="buy-btn" data-cost="300">購入・装備</button>
-              </div>
-
-            </div>
-          </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="elevation-progress-fill"></div>
         </div>
+      </div>
+    </section>
 
-        <!-- TAB CONTENT: RECORDS / ANALYTICS -->
-        <div class="tab-content" id="records-tab">
-          <div class="records-panel glass-panel">
-            <h3 class="panel-section-title">あなたの偉大な登頂史</h3>
-            
-            <div class="records-summary-grid">
-              <div class="summary-card">
-                <span class="num" id="record-total-done">0</span>
-                <span class="lbl">総踏破アタック数</span>
-              </div>
-              <div class="summary-card">
-                <span class="num" id="record-total-coins">0</span>
-                <span class="lbl">累計獲得ポイント</span>
-              </div>
-              <div class="summary-card">
-                <span class="num" id="record-estimated-calories">0</span>
-                <span class="lbl">総消費カロリー (kcal)</span>
-              </div>
-            </div>
-
-            <!-- Achievement / Level status -->
-            <div class="abs-evolution-roadmap">
-              <h4 class="roadmap-title">腹筋の進化段階</h4>
-              <div class="roadmap-steps">
-                
-                <div class="roadmap-step" id="rm-step-1">
-                  <div class="step-circle current">1</div>
-                  <div class="step-label">
-                    <h5>ぷにぷに期 (割れ度 20%以下)</h5>
-                    <p>骨盤を立てて座ることから始めよう。まだまだこれから！</p>
-                  </div>
-                </div>
-
-                <div class="roadmap-step" id="rm-step-2">
-                  <div class="step-circle">2</div>
-                  <div class="step-label">
-                    <h5>引き締まり期 (割れ度 20%〜50%)</h5>
-                    <p>お腹にうっすらと縦線が入り始める。体幹の安定感が増す。</p>
-                  </div>
-                </div>
-
-                <div class="roadmap-step" id="rm-step-3">
-                  <div class="step-circle">3</div>
-                  <div class="step-label">
-                    <h5>腹筋割れ期 (割れ度 50%〜80%)</h5>
-                    <p>お腹周りがかなりすっきり！腹直筋が明確に見え隠れ。</p>
-                  </div>
-                </div>
-
-                <div class="roadmap-step" id="rm-step-4">
-                  <div class="step-circle">4</div>
-                  <div class="step-label">
-                    <h5>ムキムキ神期 (割れ度 80%以上)</h5>
-                    <p>完全に引き締まった腹筋！デスクワークの頂点に立つ神の姿。</p>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Summit Certificates Section -->
-            <div class="summit-certificates-section" style="margin-top: 16px;">
-              <h4 class="roadmap-title">🏆 獲得した登頂証明書</h4>
-              <div class="certificates-grid" id="certificates-container">
-                <p class="no-certs-text" style="font-size: 0.72rem; color: hsl(var(--color-text-secondary)); text-align: center; padding: 12px; border: 1px dashed rgba(255,255,255,0.06); border-radius: 8px;">まだ登頂証明書はありません。山頂を目指して最初のアタックを開始しましょう！</p>
-              </div>
-            </div>
-
-            <!-- Reset Data button -->
-            <div class="reset-data-container" style="margin-bottom: 12px;">
-              <button id="reset-save-btn" class="text-danger-btn">登山記録をリセットする</button>
-            </div>
-
-            <!-- Save Data Transfer Section -->
-            <div class="save-transfer-container" style="border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 14px; margin-top: 14px;">
-              <h4 class="roadmap-title" style="margin-bottom: 8px;">データ引き継ぎ (同期)</h4>
-              <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                <button id="export-save-btn" class="secondary-btn" style="padding: 8px 10px; font-size: 0.7rem; font-weight:600; width:50%;">コードを書き出す</button>
-                <button id="import-save-btn" class="secondary-btn" style="padding: 8px 10px; font-size: 0.7rem; font-weight:600; background: rgba(45, 212, 191, 0.08); border-color: rgba(45, 212, 191, 0.25); color: #2dd4bf; width:50%;">コードを読み込む</button>
-              </div>
-              <textarea id="transfer-code-area" placeholder="ここに引き継ぎ用コードが表示・入力されます" style="width: 100%; height: 50px; background: rgba(10,11,16,0.6); border: 1px solid var(--glass-border); border-radius: 8px; color: #a5f3fc; font-size: 0.65rem; padding: 6px; font-family: monospace; resize: none; outline: none;"></textarea>
-            </div>
-
-          </div>
-        </div>
-
-      </section>
+    <!-- FITNESS CONTROLS (Timer & Manual Entry) -->
+    <section class="control-section">
       
-    </main>
-  </div>
-
-  <!-- Summit Celebration Modal Overlay -->
-  <div class="cert-modal-overlay" id="celebration-modal">
-    <div class="celebration-modal-card">
-      <button class="cert-close-btn" id="celebration-close-btn">&times;</button>
-      <div class="celebration-frame">
-        <div class="celebration-badge">🏆 SUMMIT COMPLETE 🏆</div>
-        <h2 class="celebration-title">✨ CONGRATULATIONS! ✨</h2>
-        
-        <div class="celebration-mountain-box">
-          <span class="celebration-mountain-name" id="celebration-mt-name">カイラス山</span>
-          <span class="celebration-mountain-height" id="celebration-mt-height">6,638m</span>
+      <!-- STOPWATCH TIMER -->
+      <div class="card stopwatch-card">
+        <h3 class="card-title">🕒 ストップウォッチ</h3>
+        <div class="stopwatch-display" id="stopwatch-display">00:00.0</div>
+        <div class="stopwatch-controls">
+          <button id="timer-toggle-btn" class="btn btn-primary">スタート</button>
+          <button id="timer-reset-btn" class="btn btn-secondary" disabled>リセット</button>
+          <button id="timer-apply-btn" class="btn btn-accent" disabled>数値をフォームに入力</button>
         </div>
+      </div>
 
-        <div class="celebration-content">
-          <p class="celebration-message" id="celebration-msg">
-            おめでとうございます！あなたは日々の過酷なデスクワークや自宅でのトレーニングという絶壁を登りきり、ついに栄光の山頂へ到達しました！
-          </p>
-          <div class="celebration-divider"></div>
-          <div class="celebration-trivia">
-            <h4>🏔️ この名峰の物語とロマン</h4>
-            <p id="celebration-trivia-text">
-              チベット西部にそびえる聖峰。4つの宗教の聖地であり、未だ誰も登頂していない「生涯未踏の聖山」。
-            </p>
+      <!-- EXERCISE RECORD FORM -->
+      <div class="card record-card">
+        <h3 class="card-title">📝 トレーニング手動入力</h3>
+        <form id="exercise-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="exercise-select" class="form-label">種目</label>
+            <select id="exercise-select" class="form-control">
+              <option value="plank" data-unit="分" data-default="1" data-ratio="100">フロント・プランク</option>
+              <option value="widesquat" data-unit="回" data-default="20" data-ratio="5">ワイド・スクワット</option>
+              <option value="twist" data-unit="回" data-default="20" data-ratio="3">体幹ツイスト</option>
+              <option value="other" data-unit="分" data-default="5" data-ratio="20">その他</option>
+            </select>
           </div>
-        </div>
 
-        <div class="celebration-footer" style="width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 16px;">
-          <button id="show-cert-from-celebration-btn" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">🏆 栄誉の登頂証明書を見る</button>
-          <button id="celebration-ok-btn" class="secondary-btn">次の山岳アタックへ</button>
+          <div class="form-row">
+            <div class="form-group form-group-half">
+              <label for="exercise-amount" class="form-label">数値</label>
+              <input type="number" id="exercise-amount" class="form-control" min="1" required step="any">
+            </div>
+            <div class="form-group form-group-half">
+              <span class="form-label">単位</span>
+              <span id="exercise-unit" class="unit-badge">分</span>
+            </div>
+          </div>
+
+          <div class="estimated-elevation-display">
+            獲得標高 (予測): <span id="estimated-elevation-val">100</span>m
+          </div>
+
+          <button type="button" id="submit-record-btn" class="btn btn-submit">
+            🏔️ 記録して登る
+          </button>
+        </form>
+      </div>
+
+      <!-- GAS SETTINGS ACCORDION -->
+      <div class="settings-accordion">
+        <button type="button" class="accordion-trigger" id="settings-trigger">
+          ⚙️ GAS・カレンダー連携設定 <span class="arrow">▼</span>
+        </button>
+        <div class="accordion-content" id="settings-content">
+          <div class="form-group">
+            <label for="gas-url-input" class="form-label">GAS WebアプリURL</label>
+            <input type="url" id="gas-url-input" class="form-control" placeholder="https://script.google.com/macros/s/.../exec">
+            <span class="help-text">Google Apps ScriptでウェブアプリとしてデプロイしたURLを入力します。</span>
+          </div>
+          <button type="button" id="save-settings-btn" class="btn btn-secondary btn-full">設定を保存</button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Certificate Modal Overlay -->
-  <div class="cert-modal-overlay" id="cert-modal">
-    <div class="cert-modal-card">
-      <button class="cert-close-btn" id="cert-close-btn">&times;</button>
-      <div class="cert-frame">
-        <div class="cert-header">登頂証明書</div>
-        <div class="cert-medal-seal">🏅</div>
-        <div class="cert-body">
-          <p class="cert-recipient-line">登山家ランク <span id="cert-rank-val">1</span> 殿</p>
-          <p class="cert-main-text">
-            あなたはデスクワークの合間に強靭な体幹トレーニングを重ね、過酷な環境を克服し、一生絶対に登れない伝説の霊峰<br>
-            <strong id="cert-mountain-name" class="cert-highlight">マチャプチャレ (6,993m)</strong><br>
-            の無酸素単独登頂に見事成功いたしました。
-          </p>
-          <p class="cert-body-praise">
-            よってここに、その不屈の努力と偉大な腹筋の強さを称え、登頂の栄誉を永劫に証明いたします。
-          </p>
-        </div>
-        <div class="cert-footer">
-          <div class="cert-date-box">登頂日: <span id="cert-date-val">2026-05-27</span></div>
-          <div class="cert-signer">DeskSummit 登山会一同</div>
-        </div>
-      </div>
-    </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <p>&copy; 2026 DeskSummit. Created for Light Climbing Fitness.</p>
+    </footer>
+
   </div>
 
   <script src="app.js"></script>
